@@ -1,3 +1,7 @@
+from operator import ne
+from typing import Iterator
+
+
 HW_SOURCE_FILE = __file__
 
 
@@ -29,13 +33,12 @@ def insert_items(lst:list, entry:int, elem:int):
     ...       ['List', 'ListComp', 'Slice'])
     True
     """
-    i = 0 # 初始化索引
+    i = 0 # 初始化一个索引变量
     while i < len(lst): # 循环遍历列表
-        if lst[i] == entry: # 如果找到指定的元素
-            lst.insert(i + 1, elem) # 在它的后面插入新的元素
-            i += 2 # 更新索引，跳过插入的元素
-        else:
-            i += 1 # 更新索引，继续循环
+        if lst[i] == entry: # 如果当前元素等于 entry
+            lst.insert(i + 1, elem) # 在它后面插入 elem
+            i += 1 # 增加索引，跳过插入的元素
+        i += 1 # 增加索引，继续遍历
     return lst # 返回修改后的列表
 
 
@@ -62,7 +65,12 @@ def count_occurrences(t, n, x):
     >>> count_occurrences(s2, 6, 6)
     2
     """
-    "*** YOUR CODE HERE ***"
+    total = 0
+    for _ in range(n):
+        if next(t) == x:
+            total += 1
+    return total
+
 
 
 def repeated(t, k):
@@ -87,7 +95,21 @@ def repeated(t, k):
     2
     """
     assert k > 1
-    "*** YOUR CODE HERE ***"
+    current = None # 初始化当前元素为 None
+    count = 0 # 初始化出现次数为 0
+    for x in t: # 循环遍历迭代器
+        if x == current: # 如果元素和当前元素相同
+            count += 1 # 增加出现次数
+        else: # 如果元素和当前元素不同
+            current = x # 更新当前元素
+            count = 1 # 重置出现次数
+        if count == k: # 如果出现次数等于 k
+            return current # 返回当前元素
+    raise StopIteration # 如果没有符合条件的元素，抛出异常
+
+
+
+
 
 
 def partial_reverse(lst, start):
