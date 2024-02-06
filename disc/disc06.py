@@ -84,6 +84,11 @@ def add_this_many(x: int, el: int, s: list):
     count = s.count(x)  # x出现的次数
     for _ in range(count):
         s.append(el)
+    # # 使用列表推导式来生成一个包含 x 的列表，列表的长度是 x 在 s 中出现的次数
+    # # s.extend([x for _ in range(s.count(x))])
+    # # 在生成的列表的末尾添加 el 这个元素，添加的次数也是 x 在 s 中出现的次数
+    # s.extend([el for _ in range(s.count(x))])
+
 
 
 def filter_iter(iterable, f):
@@ -104,8 +109,10 @@ def filter_iter(iterable, f):
     # return iter(filter(f, iterable))
 
     iter_iterable = iter(iterable)
-    for x in filter(f, iter_iterable):
-        yield x
+    # for x in filter(f, iter_iterable):
+    #     yield x
+
+    yield from filter(f, iter_iterable)
 
 
 def is_prime(n):

@@ -90,17 +90,6 @@ def repeated(t, k):
     2
     """
     assert k > 1
-    # cur = 1 # 相同数
-    # it = next(t) # “第一个元素”
-    # for i in t: # line 25 <- current line in the debugger
-    #     # assert cur < k
-    #     if it == i: # 如果第一个元素等于遍历元素
-    #         cur += 1 # 相同数 +1
-    #     if it != i:  # 如果第一个元素不等于遍历元素
-    #         cur = 1  # 相同数还是等于1（不变）
-    #         it = i # “第一个元素”后移（变成第二个元素）
-    #     if cur == k: # cur等于k ，返回cur
-    #         return it
     it = next(t)
     bak = k
 
@@ -117,8 +106,43 @@ def repeated(t, k):
             return helper(t,k,it)
 
     return helper(t,k,it)
+    """
+    assert k > 1
+    # 定义一个辅助函数，它接受一个迭代器，一个计数器，和一个上一个值作为参数
+    def helper(t, count, prev):
+        # 从迭代器中获取下一个值，如果没有则抛出异常
+        try:
+            i = next(t)
+        except StopIteration:
+            raise ValueError("No value appears {} times in a row".format(k))
+        # 如果当前值和上一个值相同，那么计数器加一
+        if i == prev:
+            count += 1
+        # 否则，计数器重置为一
+        else:
+            count = 1
+        # 如果计数器达到了 k，那么返回当前值
+        if count == k:
+            return i
+        # 否则，递归调用辅助函数，继续查找
+        else:
+            return helper(t, count, i)
 
+    # 调用辅助函数，初始计数器为零，初始上一个值为 None
+    return helper(t, 0, None)
+    """
 
+    # cur = 1 # 相同数
+    # it = next(t) # “第一个元素”
+    # for i in t: # line 25 <- current line in the debugger
+    #     # assert cur < k
+    #     if it == i: # 如果第一个元素等于遍历元素
+    #         cur += 1 # 相同数 +1
+    #     if it != i:  # 如果第一个元素不等于遍历元素
+    #         cur = 1  # 相同数还是等于1（不变）
+    #         it = i # “第一个元素”后移（变成第二个元素）
+    #     if cur == k: # cur等于k ，返回cur
+    #         return it
 
 
 
