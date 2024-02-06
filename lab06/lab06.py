@@ -1,5 +1,4 @@
-from operator import ne
-from typing import Iterator
+from itertools import islice
 
 
 HW_SOURCE_FILE = __file__
@@ -65,11 +64,7 @@ def count_occurrences(t, n, x):
     >>> count_occurrences(s2, 6, 6)
     2
     """
-    total = 0
-    for _ in range(n):
-        if next(t) == x:
-            total += 1
-    return total
+    return sum(i == x for i in islice(t, 0, n))
 
 
 
@@ -95,17 +90,36 @@ def repeated(t, k):
     2
     """
     assert k > 1
-    current = None # 初始化当前元素为 None
-    count = 0 # 初始化出现次数为 0
-    for x in t: # 循环遍历迭代器
-        if x == current: # 如果元素和当前元素相同
-            count += 1 # 增加出现次数
-        else: # 如果元素和当前元素不同
-            current = x # 更新当前元素
-            count = 1 # 重置出现次数
-        if count == k: # 如果出现次数等于 k
-            return current # 返回当前元素
-    raise StopIteration # 如果没有符合条件的元素，抛出异常
+    # cur = 1 # 相同数
+    # it = next(t) # “第一个元素”
+    # for i in t: # line 25 <- current line in the debugger
+    #     # assert cur < k
+    #     if it == i: # 如果第一个元素等于遍历元素
+    #         cur += 1 # 相同数 +1
+    #     if it != i:  # 如果第一个元素不等于遍历元素
+    #         cur = 1  # 相同数还是等于1（不变）
+    #         it = i # “第一个元素”后移（变成第二个元素）
+    #     if cur == k: # cur等于k ，返回cur
+    #         return it
+    it = next(t)
+    bak = k
+
+    def helper(t,k,it):
+        if k == 1:
+            return it
+        else:
+            i = next(t)
+            if it == i:
+                k -= 1
+            if it != i:
+                k = bak
+                it = i
+            return helper(t,k,it)
+
+    return helper(t,k,it)
+
+
+
 
 
 
