@@ -8,7 +8,13 @@ def hailstone(n):
     >>> next(hail_gen)
     1
     """
-    "*** YOUR CODE HERE ***"
+    yield n
+    if n == 1:
+        yield from hailstone(n)
+    if n % 2 == 0:
+        yield from hailstone(n // 2)
+    if n % 2 != 0:
+        yield from hailstone(n * 3 + 1)
 
 
 def merge(a, b):
@@ -23,7 +29,19 @@ def merge(a, b):
     >>> [next(result) for _ in range(10)]
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
-    "*** YOUR CODE HERE ***"
+    a_value = next(a)
+    b_value = next(b)
+    while True:
+        if a_value < b_value:
+            yield a_value
+            a_value = next(a)
+        elif a_value == b_value:
+            yield a_value
+            a_value = next(a)
+            b_value = next(b)
+        elif a_value > b_value:
+            yield b_value
+            b_value = next(b)
 
 
 def perms(seq):
