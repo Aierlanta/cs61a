@@ -1,4 +1,5 @@
 from itertools import islice
+from typing import Iterator
 
 
 HW_SOURCE_FILE = __file__
@@ -90,22 +91,36 @@ def repeated(t, k):
     2
     """
     assert k > 1
+    # it = next(t)
+    # bak = k
+
+    # def helper(t,k,it):
+    #     if k == 1:
+    #         return it
+    #     else:
+    #         i = next(t)
+    #         if it == i:
+    #             k -= 1
+    #         if it != i:
+    #             k = bak
+    #             it = i
+    #         return helper(t,k,it)
+    # return helper(t,k,it)
+
     it = next(t)
     bak = k
 
-    def helper(t,k,it):
+    def helper(t:Iterator[int],k:int,it:int):
         if k == 1:
             return it
-        else:
-            i = next(t)
-            if it == i:
-                k -= 1
-            if it != i:
-                k = bak
-                it = i
-            return helper(t,k,it)
+        i = next(t)
+        if it == i:
+            return helper(t,k - 1,it)
+        if it != i:
+            return helper(t,bak,i)
 
     return helper(t,k,it)
+
     """
     assert k > 1
     # 定义一个辅助函数，它接受一个迭代器，一个计数器，和一个上一个值作为参数
