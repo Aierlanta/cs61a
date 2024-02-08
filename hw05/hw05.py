@@ -1,3 +1,6 @@
+from re import X
+
+
 def hailstone(n):
     """Yields the elements of the hailstone sequence starting at n.
        At the end of the sequence, yield 1 infinitely.
@@ -66,7 +69,17 @@ def perms(seq):
     >>> sorted(perms("ab"))
     [['a', 'b'], ['b', 'a']]
     """
-    "*** YOUR CODE HERE ***"
+    # 基本情况：如果序列为空，那么它只有一个排列，就是空列表
+    if len(seq) == 0:
+        yield []
+    else:
+        # 对序列中的每个元素进行遍历
+        for i in range(len(seq)):
+            # 把这个元素从序列中移除，然后递归地获取剩余序列的所有排列
+            rest = seq[:i] + seq[i + 1 :]
+            for perm in perms(rest):
+                # 把这个元素加到每个排列的前面，就得到了以这个元素开头的所有排列
+                yield [seq[i]] + perm
 
 
 def yield_paths(t, value):
@@ -103,10 +116,12 @@ def yield_paths(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
-    "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+    if label(t) == value:
+        yield [value]
+    for b in branches(t):
+        for x in yield_paths(b,value):
+            yield [label(t)] + x
+            
 
 
 def remainders_generator(m):

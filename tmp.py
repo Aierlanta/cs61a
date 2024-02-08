@@ -1,9 +1,69 @@
+def yield_paths(t, value):
+    """Yields all possible paths from the root of t to a node with the label
+    value as a list using breadth-first search.
+
+    >>> t1 = tree(1, [tree(2, [tree(3), tree(4, [tree(6)]), tree(5)]), tree(5)])
+    >>> print_tree(t1)
+    1
+      2
+        3
+        4
+          6
+        5
+      5
+    >>> next(yield_paths(t1, 6))
+    [1, 2, 4, 6]
+    >>> path_to_5 = yield_paths(t1, 5)
+    >>> sorted(list(path_to_5))
+    [[1, 2, 5], [1, 5]]
+
+    >>> t2 = tree(0, [tree(2, [t1])])
+    >>> print_tree(t2)
+    0
+      2
+        1
+          2
+            3
+            4
+              6
+            5
+          5
+    >>> path_to_2 = yield_paths(t2, 2)
+    >>> sorted(list(path_to_2))
+    [[0, 2], [0, 2, 1, 2]]
+    """
+    queue = [(t, [label(t)])]
+    while queue:
+        node, path = queue.pop(0)
+        if label(node) == value:
+            yield path
+        for b in branches(node):
+            queue.append((b, path + [label(b)]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Tree ADT
+
+
 def tree(label, branches=[]):
     """Construct a tree with the given label value and a list of branches."""
+    for branch in branches:
+        assert is_tree(branch), "branches must be trees"
     return [label] + list(branches)
 
 
-def label(tree) -> int:
+def label(tree):
     """Return the label value of a tree."""
     return tree[0]
 
@@ -11,6 +71,16 @@ def label(tree) -> int:
 def branches(tree):
     """Return the list of branches of the given tree."""
     return tree[1:]
+
+
+def is_tree(tree):
+    """Returns True if the given tree is a tree, and False otherwise."""
+    if type(tree) != list or len(tree) < 1:
+        return False
+    for branch in branches(tree):
+        if not is_tree(branch):
+            return False
+    return True
 
 
 def is_leaf(tree):
@@ -21,141 +91,52 @@ def is_leaf(tree):
 
 
 def print_tree(t, indent=0):
-    print(
-        "     " * indent + str(label(t))
-    )  # 通过空格串来控制缩进，缩进长度取决于indent
-    for b in branches(t):
-        print_tree(b, indent + 1)  # 递归控制缩进+1
+    """Print a representation of this tree in which each node is
+    indented by two spaces times its depth from the root.
 
-
-def height(t):
-    """Return the height of a tree.
-
-    >>> t = tree(3, [tree(5, [tree(1)]), tree(2)])
-    >>> height(t)
-    2
-    >>> t = tree(3, [tree(1), tree(2, [tree(5, [tree(6)]), tree(1)])])
-    >>> height(t)
-    3
-    """
-
-    def helper(t, h):
-        if is_leaf(t):
-            return h
-        assert not is_leaf(t)
-        return max(helper(branch, h) for branch in branches(t)) + 1
-
-    return helper(t, 0)
-
-
-def max_path_sum(t):
-    """Return the maximum path sum of the tree.
-
-    >>> t = tree(1, [tree(5, [tree(1), tree(3)]), tree(10)])
-    >>> max_path_sum(t)
-    11
-    """
-    if is_leaf(t):
-        return label(t)
-    else:
-        return label(t) + max(max_path_sum(branch) for branch in branches(t))
-
-
-def find_path(t, x):
-    """
-    >>> t = tree(2, [tree(7, [tree(3), tree(6, [tree(5), tree(11)])] ), tree(15)])
-    >>> find_path(t, 5)
-    [2, 7, 6, 5]
-    >>> find_path(t, 10)  # returns None
-    """
-    if label(t) == x:
-        return [x]
-    for b in branches(t):
-        path = find_path(b, x)
-        if path:
-            return [label(t)] + path
-    return None
-
-
-def sum_tree(t):
-    """
-    Add all elements in a tree.
-    >>> t = tree(4, [tree(2, [tree(3)]), tree(6)])
-    >>> sum_tree(t)
-    15
-    """
-    if t is None:
-        return 0
-    return label(t) + sum(sum_tree(b) for b in branches(t))
-
-
-def balanced(t):
-    """
-    Checks if each branch has same sum of all elements and
-    if each branch is balanced.
-    >>> t = tree(1, [tree(3), tree(1, [tree(2)]), tree(1, [tree(1), tree(1)])])
-    >>> balanced(t)
-    True
-    >>> t = tree(1, [t, tree(1)])
-    >>> balanced(t)
-    False
-    >>> t = tree(1, [tree(4), tree(1, [tree(2), tree(1)]), tree(1, [tree(3)])])
-    >>> balanced(t)
-    False
-    """
-    if is_leaf(t):
-        return True
-    # suppose there are many children
-    # each branch is balanced:
-    each_is_balanced = all(balanced(t) for t in branches(t))
-    if not each_is_balanced:
-        return False
-    # each branch has same sum of all elements
-    all_branches_sum = [sum_tree(t) for t in branches(t)]
-    if len(set(all_branches_sum)) != 1:
-        return False
-    return True
-
-def sprout_leaves(t, leaves):
-    """Sprout new leaves containing the data in leaves at each leaf in
-    the original tree t and return the resulting tree.
-
-    >>> t1 = tree(1, [tree(2), tree(3)])
-    >>> print_tree(t1)
+    >>> print_tree(tree(1))
+    1
+    >>> print_tree(tree(1, [tree(2)]))
+    1
+      2
+    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    >>> print_tree(numbers)
     1
       2
       3
-    >>> new1 = sprout_leaves(t1, [4, 5])
-    >>> print_tree(new1)
-    1
-      2
         4
         5
-      3
-        4
-        5
-
-    >>> t2 = tree(1, [tree(2, [tree(3)])])
-    >>> print_tree(t2)
-    1
-      2
-        3
-    >>> new2 = sprout_leaves(t2, [6, 1, 2])
-    >>> print_tree(new2)
-    1
-      2
-        3
-          6
-          1
-          2
+      6
+        7
     """
-    if is_leaf(t):
-        return tree(label(t), [tree(lv) for lv in leaves])
-    else:
+    print("  " * indent + str(label(t)))
+    for b in branches(t):
+        print_tree(b, indent + 1)
 
-        return tree(label(t), [sprout_leaves(b, leaves) for b in branches(t)])
 
-if __name__ == '__main__':
-    import doctest
-#    doctest.testmod()
-    doctest.run_docstring_examples(balanced, globals())
+def copy_tree(t):
+    """Returns a copy of t. Only for testing purposes.
+
+    >>> t = tree(5)
+    >>> copy = copy_tree(t)
+    >>> t = tree(6)
+    >>> print_tree(copy)
+    5
+    """
+    return tree(label(t), [copy_tree(b) for b in branches(t)])
+
+
+def naturals():
+    """A generator function that yields the infinite sequence of natural
+    numbers, starting at 1.
+
+    >>> m = naturals()
+    >>> type(m)
+    <class 'generator'>
+    >>> [next(m) for _ in range(10)]
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    """
+    i = 1
+    while True:
+        yield i
+        i += 1
