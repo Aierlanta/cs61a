@@ -75,11 +75,8 @@ class SmartFridge:
     def __init__(self):
         self.items:dict[str,float] = {}
 
-    def add_item(self, item:str, quantity:float):
-        if item not in self.items:
-            self.items[item] = quantity
-        else:
-            self.items[item] += quantity
+    def add_item(self, item: str, quantity: float):
+        self.items[item] = self.items.get(item, 0) + quantity
         return f"I now have {self.items[item]} {item}"
 
     def use_item(self, item:str, quantity:float):
