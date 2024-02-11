@@ -1,142 +1,103 @@
-def yield_paths(t, value):
-    """Yields all possible paths from the root of t to a node with the label
-    value as a list using breadth-first search.
+from typing import Dict
 
-    >>> t1 = tree(1, [tree(2, [tree(3), tree(4, [tree(6)]), tree(5)]), tree(5)])
-    >>> print_tree(t1)
-    1
-      2
-        3
-        4
-          6
-        5
-      5
-    >>> next(yield_paths(t1, 6))
-    [1, 2, 4, 6]
-    >>> path_to_5 = yield_paths(t1, 5)
-    >>> sorted(list(path_to_5))
-    [[1, 2, 5], [1, 5]]
 
-    >>> t2 = tree(0, [tree(2, [t1])])
-    >>> print_tree(t2)
-    0
-      2
-        1
-          2
-            3
-            4
-              6
-            5
-          5
-    >>> path_to_2 = yield_paths(t2, 2)
-    >>> sorted(list(path_to_2))
-    [[0, 2], [0, 2, 1, 2]]
+class Email:
     """
-    queue = [(t, [label(t)])]
-    while queue:
-        node, path = queue.pop(0)
-        if label(node) == value:
-            yield path
-        for b in branches(node):
-            queue.append((b, path + [label(b)]))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Tree ADT
-
-
-def tree(label, branches=[]):
-    """Construct a tree with the given label value and a list of branches."""
-    for branch in branches:
-        assert is_tree(branch), "branches must be trees"
-    return [label] + list(branches)
-
-
-def label(tree):
-    """Return the label value of a tree."""
-    return tree[0]
-
-
-def branches(tree):
-    """Return the list of branches of the given tree."""
-    return tree[1:]
-
-
-def is_tree(tree):
-    """Returns True if the given tree is a tree, and False otherwise."""
-    if type(tree) != list or len(tree) < 1:
-        return False
-    for branch in branches(tree):
-        if not is_tree(branch):
-            return False
-    return True
-
-
-def is_leaf(tree):
-    """Returns True if the given tree's list of branches is empty, and False
-    otherwise.
+    Every email object has 3 instance attributes: the
+    message, the sender name, and the recipient name.
+    >>> email = Email('hello', 'Alice', 'Bob')
+    >>> email.msg
+    'hello'
+    >>> email.sender_name
+    'Alice'
+    >>> email.recipient_name
+    'Bob'
     """
-    return not branches(tree)
+
+    def __init__(self, msg: str, sender_name: str, recipient_name: str) -> None:
+        self.msg = msg
+        self.sender_name = sender_name
+        self.recipient_name = recipient_name
 
 
-def print_tree(t, indent=0):
-    """Print a representation of this tree in which each node is
-    indented by two spaces times its depth from the root.
-
-    >>> print_tree(tree(1))
-    1
-    >>> print_tree(tree(1, [tree(2)]))
-    1
-      2
-    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
-    >>> print_tree(numbers)
-    1
-      2
-      3
-        4
-        5
-      6
-        7
+class Server:
     """
-    print("  " * indent + str(label(t)))
-    for b in branches(t):
-        print_tree(b, indent + 1)
-
-
-def copy_tree(t):
-    """Returns a copy of t. Only for testing purposes.
-
-    >>> t = tree(5)
-    >>> copy = copy_tree(t)
-    >>> t = tree(6)
-    >>> print_tree(copy)
-    5
+    Each Server has one instance attribute: clients (which
+    is a dictionary that associates client names with
+    client objects).
     """
-    return tree(label(t), [copy_tree(b) for b in branches(t)])
+
+    def __init__(self):
+        self.clients: Dict[str, "Client"] = {}
+
+    def send(self, email: "Email"):
+        """
+        Take an email and put it in the inbox of the client
+        it is addressed to.
+        """
+        # Get the recipient name from the email
+        recipient_name = email.recipient_name
+        # Check if the recipient is a registered client
+        if recipient_name in self.clients:
+            # Get the recipient client object
+            recipient_client = self.clients[recipient_name]
+            # Call the receive method of the recipient client with the email
+            recipient_client.receive(email)
+        else:
+            # Print an error message
+            print(f"Error: {recipient_name} is not a registered client.")
+
+    def register_client(self, client, client_name: str):
+        """
+        Takes a client object and client_name and adds them
+        to the clients instance attribute.
+        """
+        # Check if the client name is already taken
+        if client_name in self.clients:
+            # Print an error message
+            print(f"Error: {client_name} is already taken.")
+        else:
+            # Add the client object and name to the clients dictionary
+            self.clients[client_name] = client
 
 
-def naturals():
-    """A generator function that yields the infinite sequence of natural
-    numbers, starting at 1.
-
-    >>> m = naturals()
-    >>> type(m)
-    <class 'generator'>
-    >>> [next(m) for _ in range(10)]
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+class Client:
     """
-    i = 1
-    while True:
-        yield i
-        i += 1
+    Every Client has three instance attributes: name (which is
+    used for addressing emails to the client), server
+    (which is used to send emails out to other clients), and
+    inbox (a list of all emails the client has received).
+
+    >>> s = Server()
+    >>> a = Client(s, 'Alice')
+    >>> b = Client(s, 'Bob')
+    >>> a.compose('Hello, World!', 'Bob')
+    >>> b.inbox[0].msg
+    'Hello, World!'
+    >>> a.compose('CS 61A Rocks!', 'Bob')
+    >>> len(b.inbox)
+    2
+    >>> b.inbox[1].msg
+    'CS 61A Rocks!'
+    """
+
+    def __init__(self, server: "Server", name: str):
+        self.inbox: list["Email"] = []  # Change the type annotation to Email
+        self.server = server
+        self.name = name
+        # Register the client to the server with the name
+        server.register_client(
+            self, name
+        )  # Move this line to the end of the __init__ method
+
+    def compose(self, msg: str, recipient_name: str):
+        """Send an email with the given message msg to the given recipient client."""
+        # Create an email object with the message, sender name, and recipient name
+        email = Email(msg, self.name, recipient_name)
+        # Call the send method of the server with the email
+        self.server.send(email)
+
+    def receive(self, email: "Email"):
+        """Take an email and add it to the inbox of this client."""
+        # Append the email object to the inbox list
+        self.inbox.append(email)  # Change email.msg to email
