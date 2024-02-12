@@ -16,9 +16,11 @@ class Email:
     >>> email.recipient_name
     'Bob'
     """
-    msg:str
-    sender_name:str
-    recipient_name:str
+
+    msg: str
+    sender_name: str
+    recipient_name: str
+
 
 @dataclass
 class Server:
@@ -28,9 +30,9 @@ class Server:
     client objects).
     """
 
-    clients:Dict[str,Client] = field(default_factory=dict)
+    clients: Dict[str, Client] = field(default_factory=dict)
 
-    def send(self, email:Email):
+    def send(self, email: Email):
         """
         Take an email and put it in the inbox of the client
         it is addressed to.
@@ -45,6 +47,7 @@ class Server:
         to the clients instance attribute.
         """
         self.clients[client_name] = client
+
 
 @dataclass
 class Client:
@@ -66,19 +69,19 @@ class Client:
     >>> b.inbox[1].msg
     'CS 61A Rocks!'
     """
-    server: Server 
-    name:str
-    inbox:list[Email] = field(default_factory=list)
+
+    server: Server
+    name: str
+    inbox: list[Email] = field(default_factory=list)
 
     def __post_init__(self):
         self.server.register_client(self, self.name)
 
-    def compose(self, msg:str, recipient_name:str):
+    def compose(self, msg: str, recipient_name: str):
         """Send an email with the given message msg to the given recipient client."""
-        email = Email(msg,self.name,recipient_name)
+        email = Email(msg, self.name, recipient_name)
         self.server.send(email)
 
-
-    def receive(self, email:Email):
+    def receive(self, email: Email):
         """Take an email and add it to the inbox of this client."""
         self.inbox.append(email)
