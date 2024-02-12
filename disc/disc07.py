@@ -1,5 +1,9 @@
+from dataclasses import dataclass, field
 from typing import Dict
+from future import annotations
 
+
+@dataclass
 class Email:
     """
     Every email object has 3 instance attributes: the
@@ -12,13 +16,11 @@ class Email:
     >>> email.recipient_name
     'Bob'
     """
+    msg:str
+    sender_name:str
+    recipient_name:str
 
-    def __init__(self, msg:str, sender_name:str, recipient_name:str) -> None:
-        self.msg = msg
-        self.sender_name = sender_name
-        self.recipient_name = recipient_name
-        
-
+@dataclass
 class Server:
     """
     Each Server has one instance attribute: clients (which
@@ -26,10 +28,9 @@ class Server:
     client objects).
     """
 
-    def __init__(self):
-        self.clients:Dict[str,"Client"] = {}
+    clients:Dict[str,Client] = field(default_factory=dict)
 
-    def send(self, email:"Email"):
+    def send(self, email:Email):
         """
         Take an email and put it in the inbox of the client
         it is addressed to.
@@ -38,14 +39,14 @@ class Server:
         recipient_client = self.clients[recipient_name]
         recipient_client.receive(email)  # 调用Client的receive方法
 
-    def register_client(self, client:"Client", client_name:str):
+    def register_client(self, client: Client, client_name: str):
         """
         Takes a client object and client_name and adds them
         to the clients instance attribute.
         """
         self.clients[client_name] = client
 
-
+@dataclass
 class Client:
     """
     Every Client has three instance attributes: name (which is
@@ -65,12 +66,12 @@ class Client:
     >>> b.inbox[1].msg
     'CS 61A Rocks!'
     """
+    server: Server 
+    name:str
+    inbox:list[Email] = field(default_factory=list)
 
-    def __init__(self, server: "Server", name:str):
-        self.inbox:list["Email"] = []
-        self.server = server
-        self.name = name
-        server.register_client(self, name)
+    def __post_init__(self):
+        self.server.register_client(self, self.name)
 
     def compose(self, msg:str, recipient_name:str):
         """Send an email with the given message msg to the given recipient client."""
@@ -78,6 +79,6 @@ class Client:
         self.server.send(email)
 
 
-    def receive(self, email:"Email"):
+    def receive(self, email:Email):
         """Take an email and add it to the inbox of this client."""
         self.inbox.append(email)

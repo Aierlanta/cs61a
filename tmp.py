@@ -1,6 +1,8 @@
-from typing import Dict
+from dataclasses import dataclass, field
+from typing import Dict, List
 
 
+@dataclass
 class Email:
     """
     Every email object has 3 instance attributes: the
@@ -14,12 +16,12 @@ class Email:
     'Bob'
     """
 
-    def __init__(self, msg: str, sender_name: str, recipient_name: str) -> None:
-        self.msg = msg
-        self.sender_name = sender_name
-        self.recipient_name = recipient_name
+    msg: str
+    sender_name: str
+    recipient_name: str
 
 
+@dataclass
 class Server:
     """
     Each Server has one instance attribute: clients (which
@@ -27,8 +29,7 @@ class Server:
     client objects).
     """
 
-    def __init__(self):
-        self.clients: Dict[str, "Client"] = {}
+    clients: Dict[str, "Client"] = field(default_factory=dict)  # Use default_factory
 
     def send(self, email: "Email"):
         """
@@ -61,6 +62,7 @@ class Server:
             self.clients[client_name] = client
 
 
+@dataclass
 class Client:
     """
     Every Client has three instance attributes: name (which is
@@ -81,14 +83,13 @@ class Client:
     'CS 61A Rocks!'
     """
 
-    def __init__(self, server: "Server", name: str):
-        self.inbox: list["Email"] = []  # Change the type annotation to Email
-        self.server = server
-        self.name = name
+    server: "Server"
+    name: str
+    inbox: List["Email"] = field(default_factory=list)  # Use default_factory
+
+    def __post_init__(self):
         # Register the client to the server with the name
-        server.register_client(
-            self, name
-        )  # Move this line to the end of the __init__ method
+        self.server.register_client(self, self.name)
 
     def compose(self, msg: str, recipient_name: str):
         """Send an email with the given message msg to the given recipient client."""
@@ -100,4 +101,4 @@ class Client:
     def receive(self, email: "Email"):
         """Take an email and add it to the inbox of this client."""
         # Append the email object to the inbox list
-        self.inbox.append(email)  # Change email.msg to email
+        self.inbox.append(email)
