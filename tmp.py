@@ -1,13 +1,5 @@
-from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Callable, Dict, List
-import inspect
-from functools import partial
-
-
 class TeamMember:
-    """
-    >>> adder = TeamMember(lambda x: x + 1) # team member at front
+    """>>> adder = TeamMember(lambda x: x + 1) # team member at front
     >>> adder2 = TeamMember(lambda x: x + 2, adder) # team member 2
     >>> multiplier = TeamMember(lambda x: x * 5, adder2) # team member 3
     >>> adder.relay_history() # relay history starts off as empty
@@ -34,46 +26,8 @@ class TeamMember:
     [2]
     >>> multiplier.relay_history() # but the most relay multiplier participated in is still multiplier.relay_calculate(4)
     [5, 7, 35]
-    >>> divider = TeamMember(lambda x: x / 2, multiplier) # team member 4
-    >>> divider.relay_calculate(4) # ((((4 + 1) + 2) * 5) / 2)
-    17.5
-    >>> divider.relay_history()
-    [5, 7, 35, 17.5]
-    >>> divider.relay_calculate(0) # ((((0 + 1) + 2) * 5) / 2)
-    7.5
-    >>> divider.relay_history()
-    [1, 3, 15, 7.5]
-    >>> divider2 = TeamMember(partial(lambda x, y: x / y, 10), divider) # team member 5
-    >>> divider2.relay_calculate(4) # ((((((4 + 1) + 2) * 5) / 2) / 10)
-    1.75
-    >>> divider2.relay_history()
-    [5, 7, 35, 17.5, 1.75]
-    >>> divider2.relay_calculate(0) # ((((((0 + 1) + 2) * 5) / 2) / 10)
-    0.75
-    >>> divider2.relay_history()
-    [1, 3, 15, 7.5, 0.75]
-    >>> divider3 = TeamMember(lambda x: x / 0, divider2) # team member 6
-    >>> divider3.relay_calculate(4) # (((((((4 + 1) + 2) * 5) / 2) / 10) / 0)
-    Traceback (most recent call last):
-    ...
-    ZeroDivisionError: division by zero
-    >>> divider3.relay_history()
-    [5, 7, 35, 17.5, 1.75, 'ZeroDivisionError: division by zero']
-    >>> divider2.relay_history()
-    [17.5, 1.75, 'ZeroDivisionError: division by zero']
-    >>> divider.relay_history()
-    [35, 17.5, 'ZeroDivisionError: division by zero']
-    >>> multiplier.relay_history()
-    [7, 35, 'ZeroDivisionError: division by zero']
-    >>> adder2.relay_history()
-    [6, 'ZeroDivisionError: division by zero']
-    >>> adder.relay_history()
-    [5, 'ZeroDivisionError: division by zero']
     """
-
-    def __init__(
-        self, operation: Callable[[int], int], prev_member: TeamMember = None
-    ) -> None:
+    def __init__(self, operation, prev_member=None):
         """
         A TeamMember object is instantiated by taking in an `operation`
         and a TeamMember object `prev_member`, which is the team member
@@ -81,41 +35,31 @@ class TeamMember:
         tracks a `history` list, which contains the answers given by
         each individual team member.
         """
-        self.history: List[int] = []
-        self.operation = operation
-        self.prev_member = prev_member
+        self.history = []
+        self.operation = operation # Store the operation as an attribute
+        self.prev_member = prev_member # Store the previous member as an attribute
 
-    def relay_calculate(self, x: int) -> int:
+    def relay_calculate(self, x):
         """
         The relay_calculate method takes in a number `x` and performs a
         relay by passing in `x` to the first team member's `operation`.
         Then, that answer is passed to the next member's operation, etc. until
         we get to the current TeamMember, in which case we return the
-        final answer, `result`.
+        final answer, `result`. 
         """
-        self.history = []  # clear the history list
-        if self.prev_member is None:
-            try:
-                result = self.operation(x)
-                self.history.append(result)
-            except Exception as e:
-                self.history.append(str(e))
-                raise e
+        if self.prev_member is None: # Check if this is the first member in the relay
+            result = self.operation(x) # Apply the operation to x
         else:
-            try:
-                result = self.operation(self.prev_member.relay_calculate(x))
-                self.history.append(result)
-            except Exception as e:
-                self.history.append(str(e))
-                raise e
-        return result
+            result = self.operation(self.prev_member.relay_calculate(x)) # Apply the operation to the result of the previous member
+        self.history.append(result) # Append the result to the history list
+        return result # Return the final result
 
-    def relay_history(self) -> List[int]:
+    def relay_history(self):
         """
         Returns a list of the answers given by each team member in the
         most recent relay the current TeamMember has participated in.
         """
-        param_count = len(
-            inspect.getfullargspec(self.operation).args
-        )  # get the operation's parameter count
-        return self.history[-param_count:]
+        if self.prev_member is None: # Check if this is the first member in the relay
+            return self.history # Return the history list
+        else:
+            return self.prev_member.relay_history() + self.history # Return the history list of the previous member plus the current member

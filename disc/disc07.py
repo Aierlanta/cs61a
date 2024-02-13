@@ -170,7 +170,9 @@ class TeamMember:
     [5, 7, 35]
     """
 
-    def __init__(self, operation: Callable[[int], int], prev_member: TeamMember = None) -> None:
+    def __init__(
+        self, operation: Callable[[int], int], prev_member: TeamMember = None
+    ) -> None:
         """
         A TeamMember object is instantiated by taking in an `operation`
         and a TeamMember object `prev_member`, which is the team member
@@ -190,11 +192,20 @@ class TeamMember:
         we get to the current TeamMember, in which case we return the
         final answer, `result`.
         """
+
         if self.prev_member is None:
+            self.history = []
             result = self.operation(x)
-            self.history.append(result)
+            self.history += [result]
+
         else:
-            return self.prev_member.relay_calculate(x)
+            self.history = []
+            result = self.operation(self.prev_member.relay_calculate(x))
+            self.history += [result]
+
+        if self.prev_member:
+            self.history = self.prev_member.history + self.history
+
         return result
 
     def relay_history(self) -> List[int]:
