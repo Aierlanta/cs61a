@@ -32,14 +32,14 @@ class Mint:
     >>> dime.worth()     # 20 cents + (155 - 50 years)
     125
     """
+
     present_year = 2022
 
     def __init__(self):
         self.update()
 
-    def create(self, coin:Any):
+    def create(self, coin: Any):
         return coin(self.year)
-
 
     def update(self):
         self.year = self.present_year
@@ -48,11 +48,11 @@ class Mint:
 class Coin:
     cents = None  # will be provided by subclasses, but not by Coin itself
 
-    def __init__(self, year:int):
+    def __init__(self, year: int):
         self.year = year
 
     def worth(self):
-        return self.cents + max((Mint.present_year - self.year - 50),0)
+        return self.cents + max((Mint.present_year - self.year - 50), 0)
 
 
 class Nickel(Coin):
@@ -61,6 +61,7 @@ class Nickel(Coin):
 
 class Dime(Coin):
     cents = 10
+
 
 @dataclass
 class VendingMachine:
@@ -100,36 +101,37 @@ class VendingMachine:
     >>> w.vend()
     'Here is your soda.'
     """
-    name:str
-    price:int
-    stock:int = 0
-    money:int = 0
 
-    def vend(self): #取貨
-        #庫存==0
+    name: str
+    price: int
+    stock: int = 0
+    money: int = 0
+
+    def vend(self):  # 取貨
+        # 庫存==0
         if self.stock == 0:
             return "Nothing left to vend. Please restock."
-        #庫存!=0
-        if self.money < self.price: #餘額不足
+        # 庫存!=0
+        if self.money < self.price:  # 餘額不足
             return f"Please add ${self.price - self.money} more funds."
-        #餘額充足
+        # 餘額充足
         self.stock -= 1
         self.money -= self.price
-        if self.money > 0: #如果還有餘錢
+        if self.money > 0:  # 如果還有餘錢
             massage = f"Here is your {self.name} and ${self.money} change."
-            self.money = 0 #退錢
+            self.money = 0  # 退錢
             return massage
-        #剛好花完
+        # 剛好花完
         return f"Here is your {self.name}."
 
-    def add_funds(self,money:int): #加錢
-        if self.stock == 0: #如果庫存==0，直接退錢
+    def add_funds(self, money: int):  # 加錢
+        if self.stock == 0:  # 如果庫存==0，直接退錢
             return f"Nothing left to vend. Please restock. Here is your ${money}."
-        #否則收錢
+        # 否則收錢
         self.money += money
         return f"Current balance: ${self.money}"
 
-    def restock(self,stock:int): #補充庫存
+    def restock(self, stock: int):  # 補充庫存
         self.stock += stock
         return f"Current {self.name} stock: {self.stock}"
 
@@ -153,6 +155,7 @@ def make_test_random():
         rand = rands[0]
         rands.append(rands.pop(0))
         return rand
+
     return random
 
 
@@ -261,7 +264,7 @@ class CautiousPlayer(Player):
         "*** YOUR CODE HERE ***"
 
 
-class VirFib():
+class VirFib:
     """A Virahanka Fibonacci number.
 
     >>> start = VirFib()
