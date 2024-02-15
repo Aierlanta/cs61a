@@ -188,18 +188,29 @@ class Player:
 
     """
 
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
         self.votes = 0
         self.popularity = 100
 
-    def debate(self, other):
-        "*** YOUR CODE HERE ***"
+    def debate(self, other: Player):
+        r = random()
+        p = max(0.1, self.popularity / (self.popularity + other.popularity))
 
-    def speech(self, other):
-        "*** YOUR CODE HERE ***"
+        if r <= p:
+            self.popularity += 50
+        else:
+            self.popularity -= 50
 
-    def choose(self, other):
+    def speech(self, other: Player):
+        add_vote_popu = self.popularity // 10
+        self.votes += add_vote_popu
+        self.popularity += add_vote_popu
+
+        sub_popu = other.popularity // 10
+        other.popularity -= sub_popu
+
+    def choose(self, other: Player):
         return self.speech
 
 
@@ -214,21 +225,30 @@ class Game:
 
     """
 
-    def __init__(self, player1, player2):
+    def __init__(self, player1: Player, player2: Player):
         self.p1 = player1
         self.p2 = player2
         self.turn = 0
 
     def play(self):
         while not self.game_over():
-            "*** YOUR CODE HERE ***"
+            action1 = self.p1.choose(self.p2)
+            action2 = self.p2.choose(self.p1)
+            action1(self.p2)
+            action2(self.p1)
+            self.turn += 1
         return self.winner()
 
     def game_over(self):
         return max(self.p1.votes, self.p2.votes) >= 50 or self.turn >= 10
 
     def winner(self):
-        "*** YOUR CODE HERE ***"
+        if self.p1.votes > self.p2.votes:
+            return self.p1
+        if self.p2.votes > self.p1.votes:
+            return self.p2
+        else:
+            return None
 
 
 # Phase 3: New Players
@@ -243,8 +263,11 @@ class AggressivePlayer(Player):
 
     """
 
-    def choose(self, other):
-        "*** YOUR CODE HERE ***"
+    def choose(self, other: Player):
+        if self.popularity <= other.popularity:
+            return self.debate
+        else:
+            return self.speech
 
 
 class CautiousPlayer(Player):
@@ -260,8 +283,11 @@ class CautiousPlayer(Player):
 
     """
 
-    def choose(self, other):
-        "*** YOUR CODE HERE ***"
+    def choose(self, other: Player):
+        if self.popularity == 0:
+            return self.debate
+        else:
+            return self.speech
 
 
 class VirFib:
