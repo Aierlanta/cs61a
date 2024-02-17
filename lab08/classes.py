@@ -1,12 +1,13 @@
 # Magic the Lambda-ing!
 
+from __future__ import annotations
 import random
 
 
 class Card:
     cardtype = 'Staff'
 
-    def __init__(self, name, attack, defense):
+    def __init__(self, name:str, attack:int, defense:int):
         """
         Create a Card object with a name, attack,
         and defense.
@@ -23,9 +24,11 @@ class Card:
         >>> other_staff.defense
         500
         """
-        "*** YOUR CODE HERE ***"
+        self.name = name
+        self.attack = attack
+        self.defense = defense
 
-    def power(self, opponent_card):
+    def power(self, opponent_card:Card):
         """
         Calculate power as:
         (player card's attack) - (opponent card's defense)
@@ -41,7 +44,7 @@ class Card:
         >>> third_card.power(staff_member)
         -100
         """
-        "*** YOUR CODE HERE ***"
+        return self.attack - opponent_card.defense
 
     def effect(self, opponent_card, player, opponent):
         """
@@ -65,7 +68,7 @@ class Card:
 
 
 class Player:
-    def __init__(self, deck, name):
+    def __init__(self, deck:Deck, name:str):
         """Initialize a Player object.
         A Player starts the game by drawing 5 cards from their deck. Each turn,
         a Player draws another card from the deck and chooses one to play.
@@ -79,7 +82,13 @@ class Player:
         """
         self.deck = deck
         self.name = name
-        "*** YOUR CODE HERE ***"
+        self.hand:list[Card] = []
+        
+        for _ in range(5):
+            if self.deck.cards:
+                pop_dark = self.deck.cards.pop()
+                self.hand.append(pop_dark)
+
 
     def draw(self):
         """Draw a card from the player's deck and add it to their hand.
@@ -93,9 +102,10 @@ class Player:
         6
         """
         assert not self.deck.is_empty(), 'Deck is empty!'
-        "*** YOUR CODE HERE ***"
+        card = Deck.draw(self.deck)
+        self.hand.append(card)
 
-    def play(self, index):
+    def play(self, index:int):
         """Remove and return a card from the player's hand at the given INDEX.
         >>> from cards import *
         >>> test_player = Player(standard_deck, 'tester')
@@ -109,7 +119,9 @@ class Player:
         >>> len(test_player.hand)
         2
         """
-        "*** YOUR CODE HERE ***"
+        hand_card = self.hand[index]
+        self.hand.pop(index)
+        return hand_card
 
     def display_hand(self):
         """
@@ -291,14 +303,14 @@ class InstructorCard(Card):
 ########################################
 
 class Deck:
-    def __init__(self, cards):
+    def __init__(self, cards:list[Card]):
         """
         With a list of cards as input, create a deck.
         This deck should keep track of the cards it contains, and
         we should be able to draw from the deck, taking a random
         card out of it.
         """
-        self.cards = cards
+        self.cards: list[Card] = cards
 
     def draw(self):
         """
