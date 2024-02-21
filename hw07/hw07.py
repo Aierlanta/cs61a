@@ -1,4 +1,8 @@
-def store_digits(n):
+from __future__ import annotations
+from typing import Any, Callable, List
+
+
+def store_digits(n: int) -> Link:
     """Stores the digits of a positive number n in a linked list.
 
     >>> s = store_digits(1)
@@ -16,10 +20,22 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
-    "*** YOUR CODE HERE ***"
+
+    def len_n(n: int):
+        len_n = 0
+        while n != 0:
+            len_n += 1
+            n //= 10
+        return len_n
+
+    if len_n(n) <= 1:
+        return Link(n)
+    # else:
+    cut_len = 10 ** (len_n(n) - 1)
+    return Link(n // cut_len, store_digits(n % cut_len))
 
 
-def deep_map_mut(func, lnk):
+def deep_map_mut(func:Callable[[Any],Any], lnk:Link|int)->Any:
     """Mutates a deep link lnk by replacing each item found with the
     result of calling func on the item.  Does NOT create new Links (so
     no use of Link's constructor).
@@ -36,10 +52,17 @@ def deep_map_mut(func, lnk):
     >>> print(link1)
     <9 <16> 25 36>
     """
-    "*** YOUR CODE HERE ***"
+    if not isinstance(lnk, Link):
+        return
+    # else:
+    if isinstance(lnk.first, Link):
+        deep_map_mut(func, lnk.first)
+    else:
+        lnk.first = func(lnk.first)
+    return deep_map_mut(func, lnk.rest)
 
 
-def two_list(vals, counts):
+def two_list(vals:List[int], counts:List[int]):
     """
     Returns a linked list according to the two lists that were passed in. Assume
     vals and counts are the same size. Elements in vals represent the value, and the
@@ -57,7 +80,7 @@ def two_list(vals, counts):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    "*** YOUR CODE HERE ***"
+    
 
 
 def add_d_leaves(t, v):
@@ -141,26 +164,27 @@ class Link:
     >>> print(s)                             # Prints str(s)
     <5 7 <8 9>>
     """
+
     empty = ()
 
-    def __init__(self, first, rest=empty):
+    def __init__(self, first:Link|int, rest:Any=empty):
         assert rest is Link.empty or isinstance(rest, Link)
-        self.first = first
-        self.rest = rest
+        self.first: Any = first
+        self.rest:Any = rest
 
     def __repr__(self):
         if self.rest is not Link.empty:
-            rest_repr = ', ' + repr(self.rest)
+            rest_repr = ", " + repr(self.rest)
         else:
-            rest_repr = ''
-        return 'Link(' + repr(self.first) + rest_repr + ')'
+            rest_repr = ""
+        return "Link(" + repr(self.first) + rest_repr + ")"
 
     def __str__(self):
-        string = '<'
+        string = "<"
         while self.rest is not Link.empty:
-            string += str(self.first) + ' '
+            string += str(self.first) + " "
             self = self.rest
-        return string + str(self.first) + '>'
+        return string + str(self.first) + ">"
 
 
 class Tree:
@@ -185,15 +209,16 @@ class Tree:
 
     def __repr__(self):
         if self.branches:
-            branch_str = ', ' + repr(self.branches)
+            branch_str = ", " + repr(self.branches)
         else:
-            branch_str = ''
-        return 'Tree({0}{1})'.format(self.label, branch_str)
+            branch_str = ""
+        return "Tree({0}{1})".format(self.label, branch_str)
 
     def __str__(self):
         def print_tree(t, indent=0):
-            tree_str = '  ' * indent + str(t.label) + "\n"
+            tree_str = "  " * indent + str(t.label) + "\n"
             for b in t.branches:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
+
         return print_tree(self).rstrip()
