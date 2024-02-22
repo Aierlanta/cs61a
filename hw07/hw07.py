@@ -21,21 +21,22 @@ def store_digits(n: int) -> Link:
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
 
-    def len_n(n: int):
-        len_n = 0
-        while n != 0:
-            len_n += 1
-            n //= 10
-        return len_n
+    def helper(n: int, cut_len: int) -> Link:
+        if n == 0:
+            return Link(n)
+        # else:
+        return Link(n // 10**cut_len, helper(n % cut_len, 10 ** (cut_len - 1)))
 
-    if len_n(n) <= 1:
-        return Link(n)
-    # else:
-    cut_len = 10 ** (len_n(n) - 1)
-    return Link(n // cut_len, store_digits(n % cut_len))
+    i = 0
+    bak = n
+    while bak != 0:
+        i += 1
+        bak //= 10
+
+    return helper(n, i)
 
 
-def deep_map_mut(func:Callable[[Any],Any], lnk:Link|int)->Any:
+def deep_map_mut(func: Callable[[Any], Any], lnk: Link | int) -> Any:
     """Mutates a deep link lnk by replacing each item found with the
     result of calling func on the item.  Does NOT create new Links (so
     no use of Link's constructor).
@@ -54,15 +55,14 @@ def deep_map_mut(func:Callable[[Any],Any], lnk:Link|int)->Any:
     """
     if not isinstance(lnk, Link):
         return
-    # else:
-    if isinstance(lnk.first, Link):
+    elif isinstance(lnk.first, Link):
         deep_map_mut(func, lnk.first)
-    else:
+    elif not isinstance(lnk.first, Link):
         lnk.first = func(lnk.first)
     return deep_map_mut(func, lnk.rest)
 
 
-def two_list(vals:List[int], counts:List[int]):
+def two_list(vals: List[int], counts: List[int]):
     """
     Returns a linked list according to the two lists that were passed in. Assume
     vals and counts are the same size. Elements in vals represent the value, and the
@@ -80,10 +80,21 @@ def two_list(vals:List[int], counts:List[int]):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    
+    if not vals or not counts:  # 如果两列表都空了，说明结束，返回Link.enpty
+        return Link.empty
+    node = Link(vals[0])  # 让val链表的头变成列表的当前值
+    if (
+        counts[0] == 1
+    ):  # 如果只需要重复一次/只剩下重复一次：让链表尾变成切片后的列表（跳到下一位）
+        node.rest = two_list(vals[1:], counts[1:])
+    elif (
+        counts[0] != 1
+    ):  # 如果剩余重复次数不为1，则让重复次数减1，然后让列表继续做链表尾（但不跳到下一位）
+        node.rest = two_list(vals, [counts[0] - 1] + counts[1:])
+    return node
 
 
-def add_d_leaves(t, v):
+def add_d_leaves(t: Tree, v: int) -> None:
     """Add d leaves containing v to each node at every depth d.
 
     >>> t_one_to_four = Tree(1, [Tree(2), Tree(3, [Tree(4)])])
@@ -141,7 +152,17 @@ def add_d_leaves(t, v):
           10
         10
     """
-    "*** YOUR CODE HERE ***"
+
+    # def helper(tree:Tree, d:int) -> None:
+    #     for b in tree.branches:
+    #         if b.is_leaf():
+    #             for _ in range(d):
+    #                 b.branches.append(Tree(v))
+    #         elif not b.is_leaf():
+    #             return helper(b, d + 1)
+    
+    # return helper(t, 0)
+
 
 
 class Link:
@@ -167,10 +188,10 @@ class Link:
 
     empty = ()
 
-    def __init__(self, first:Link|int, rest:Any=empty):
+    def __init__(self, first: Link | int, rest: Any = empty):
         assert rest is Link.empty or isinstance(rest, Link)
         self.first: Any = first
-        self.rest:Any = rest
+        self.rest: Any = rest
 
     def __repr__(self):
         if self.rest is not Link.empty:
@@ -198,7 +219,7 @@ class Tree:
     True
     """
 
-    def __init__(self, label, branches=[]):
+    def __init__(self, label: int, branches: list[Tree] = []):
         for b in branches:
             assert isinstance(b, Tree)
         self.label = label
