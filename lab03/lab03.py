@@ -60,7 +60,7 @@ def get_k_run_starter(n, k):
     i = 0
     final = None
     while i <= k and n != 0:
-        while n % 10 > ((n%100)//10) and (n % 1000 >= 100 or n % 100 >= 10):
+        while n % 10 > ((n % 100) // 10) and (n % 1000 >= 100 or n % 100 >= 10):
             n //= 10
         final = n % 10
         i = i + 1
@@ -93,14 +93,14 @@ def nearest_two(x):
     if x > 1:
         while x > power_of_two:
             power_of_two = mul_two(power_of_two)
-        if abs(power_of_two - x) >  abs(power_of_two/2 - x):
+        if abs(power_of_two - x) > abs(power_of_two / 2 - x):
             power_of_two /= 2
     else:
-        #x <= 1:
+        # x <= 1:
         while x < power_of_two:
             power_of_two = div_two(power_of_two)
-        if abs(power_of_two- x) >=  abs(power_of_two*2 - x):
-            power_of_two *= 2 
+        if abs(power_of_two - x) >= abs(power_of_two * 2 - x):
+            power_of_two *= 2
     return power_of_two
 
 
@@ -119,6 +119,7 @@ def make_repeater(func, n):
     >>> make_repeater(square, 0)(5) # Yes, it makes sense to apply the function zero times!
     5
     """
+
     def fff(x):
         f = x
         i = 0
@@ -126,6 +127,7 @@ def make_repeater(func, n):
             f = func(f)
             i += 1
         return f
+
     return fff
 
 
@@ -146,7 +148,7 @@ def apply_twice(func):
     >>> apply_twice(square)(2)
     16
     """
-    return make_repeater(func,2)
+    return make_repeater(func, 2)
 
 
 def div_by_primes_under(n):

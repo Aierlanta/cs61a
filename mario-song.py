@@ -72,7 +72,7 @@ def both(f: Callable[[T], T1], g: Callable[[T], T1]) -> Callable[[T], T1]:
 # play(both(tri(c_freq), tri(e_freq)))
 
 
-def note(f:Callable[[T], T1], start, end, fade=0.01):
+def note(f: Callable[[T], T1], start, end, fade=0.01):
     def sampler(t):
         seconds = t / frame_rate
 

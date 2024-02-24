@@ -21,6 +21,7 @@ def my_map(fn, seq):
     """
     return [fn(x) for x in seq]
 
+
 def my_filter(pred, seq):
     """Keeps elements in seq only if they satisfy pred.
     >>> my_filter(lambda x: x % 2 == 0, [1, 2, 3, 4])  # new list has only even-valued elements
@@ -38,6 +39,7 @@ def my_filter(pred, seq):
     [1, 2, 3, 4, 5]
     """
     return [x for x in seq if pred(x)]
+
 
 def my_reduce(combiner, seq):
     """Combines elements in seq using combiner.
@@ -60,6 +62,8 @@ def my_reduce(combiner, seq):
 
     # 返回最终的 result
     return result
+
+
 my_reduce(lambda x, y: x + y, [1, 2, 3, 4])
 
 
@@ -73,6 +77,7 @@ def my_map_syntax_check():
     """
     # You don't need to edit this function. It's just here to check your work.
 
+
 def my_filter_syntax_check():
     """Check that your two_of_three code consists of nothing but a return statement.
 
@@ -85,7 +90,7 @@ def my_filter_syntax_check():
 
 
 def double_eights(n):
-    """ Returns whether or not n has two digits in row that
+    """Returns whether or not n has two digits in row that
     are the number 8. Assume n has at least two digits in it.
 
     >>> double_eights(1288)
@@ -119,10 +124,9 @@ def double_eights(n):
     if n <= 0:
         return False
     else:
-        if n % 10 == 8 and n%100//10 == 8:
+        if n % 10 == 8 and n % 100 // 10 == 8:
             return True
-        return double_eights(n//10)
-
+        return double_eights(n // 10)
 
 
 def merge(lst1, lst2):
@@ -150,9 +154,9 @@ def merge(lst1, lst2):
     True
     """
     # result = []
-    
+
     # i, j = 0, 0
-    
+
     # while i < len(lst1) and j < len(lst2):
     #     if lst1[i] < lst2[j]:
     #         result.append(lst1[i])
@@ -160,34 +164,34 @@ def merge(lst1, lst2):
     #     else:
     #         result.append(lst2[j])
     #         j += 1
-    
+
     # result.extend(lst1[i:])
-    
+
     # result.extend(lst2[j:])
     # return result
 
     result = []
 
-    def comm(lst1:list,lst2:list,result:list)->list:
+    def comm(lst1: list, lst2: list, result: list) -> list:
         if len(lst1) == 0:
             result.extend(lst2)
             return result
         if len(lst2) == 0:
             result.extend(lst1)
             return result
-        
+
         else:
             # len(lst1) & len(lst2) != 0
             if lst1[0] < lst2[0]:
                 result.append(lst1[0])
-                return comm(lst1[1:],lst2,result)
+                return comm(lst1[1:], lst2, result)
             else:
                 # lst1[0] >= lst[0]
                 result.append(lst2[0])
-                return comm(lst1,lst2[1:],result)
-    
-    return comm(lst1,lst2,result)
-                
+                return comm(lst1, lst2[1:], result)
+
+    return comm(lst1, lst2, result)
+
 
 def summation(n, term):
     """Return the sum of numbers 1 through n (including n) wíth term applied to each number.
@@ -207,12 +211,12 @@ def summation(n, term):
     True
     """
     assert n >= 1
-    
+
     if n == 1:
         return term(n)
     else:
         # n > 1
-        return term(n) + summation(n-1,term)
+        return term(n) + summation(n - 1, term)
 
 
 def count_palindromes(L):
@@ -224,19 +228,18 @@ def count_palindromes(L):
     """
     return len(list(filter((lambda s: s.lower() == s.lower()[::-1]), L)))
 
-def test(L)->int:
 
-    def streq(s:str)->bool:
+def test(L) -> int:
+    def streq(s: str) -> bool:
         for i in range(len(s)):
             if s[i] == s[len(s) - 1 - i]:
                 continue
             else:
                 return False
         return True
-    
+
     i = 0
     for word in L:
         if streq(word):
             i += 1
         return i
-    

@@ -5,9 +5,9 @@ import random
 
 
 class Card:
-    cardtype = 'Staff'
+    cardtype = "Staff"
 
-    def __init__(self, name:str, attack:int, defense:int):
+    def __init__(self, name: str, attack: int, defense: int):
         """
         Create a Card object with a name, attack,
         and defense.
@@ -28,7 +28,7 @@ class Card:
         self.attack = attack
         self.defense = defense
 
-    def power(self, opponent_card:Card):
+    def power(self, opponent_card: Card):
         """
         Calculate power as:
         (player card's attack) - (opponent card's defense)
@@ -58,7 +58,9 @@ class Card:
         a card, in the form:
         <cardname>: <cardtype>, [<attack>, <defense>]
         """
-        return '{}: {}, [{}, {}]'.format(self.name, self.cardtype, self.attack, self.defense)
+        return "{}: {}, [{}, {}]".format(
+            self.name, self.cardtype, self.attack, self.defense
+        )
 
     def copy(self):
         """
@@ -68,7 +70,7 @@ class Card:
 
 
 class Player:
-    def __init__(self, deck:Deck, name:str):
+    def __init__(self, deck: Deck, name: str):
         """Initialize a Player object.
         A Player starts the game by drawing 5 cards from their deck. Each turn,
         a Player draws another card from the deck and chooses one to play.
@@ -82,13 +84,12 @@ class Player:
         """
         self.deck = deck
         self.name = name
-        self.hand:list[Card] = []
-        
+        self.hand: list[Card] = []
+
         for _ in range(5):
             if self.deck.cards:
                 pop_dark = self.deck.cards.pop()
                 self.hand.append(pop_dark)
-
 
     def draw(self):
         """Draw a card from the player's deck and add it to their hand.
@@ -101,11 +102,11 @@ class Player:
         >>> len(test_player.hand)
         6
         """
-        assert not self.deck.is_empty(), 'Deck is empty!'
+        assert not self.deck.is_empty(), "Deck is empty!"
         card = Deck.draw(self.deck)
         self.hand.append(card)
 
-    def play(self, index:int):
+    def play(self, index: int):
         """Remove and return a card from the player's hand at the given INDEX.
         >>> from cards import *
         >>> test_player = Player(standard_deck, 'tester')
@@ -127,9 +128,11 @@ class Player:
         """
         Display the player's current hand to the user.
         """
-        print('Your hand:')
-        for card_index, displayed_card in zip(range(len(self.hand)), [str(card) for card in self.hand]):
-            indent = ' ' * (5 - len(str(card_index)))
+        print("Your hand:")
+        for card_index, displayed_card in zip(
+            range(len(self.hand)), [str(card) for card in self.hand]
+        ):
+            indent = " " * (5 - len(str(card_index)))
             print(card_index, indent + displayed_card)
 
     def play_random(self):
@@ -138,13 +141,14 @@ class Player:
         """
         return self.play(random.randrange(len(self.hand)))
 
+
 ######################
 # Optional Questions #
 ######################
 
 
 class AICard(Card):
-    cardtype = 'AI'
+    cardtype = "AI"
 
     def effect(self, opponent_card, player, opponent):
         """
@@ -180,7 +184,7 @@ class AICard(Card):
 
 
 class TutorCard(Card):
-    cardtype = 'Tutor'
+    cardtype = "Tutor"
 
     def effect(self, opponent_card, player, opponent):
         """
@@ -225,7 +229,7 @@ class TutorCard(Card):
 
 
 class TACard(Card):
-    cardtype = 'TA'
+    cardtype = "TA"
 
     def effect(self, opponent_card, player, opponent, arg=None):
         """
@@ -253,7 +257,9 @@ class TACard(Card):
         best_card = None
         # You should add your implementation above this.
         if best_card:
-            print(f"{self.name} discards {best_card.name} from my hand to increase its own power!")
+            print(
+                f"{self.name} discards {best_card.name} from my hand to increase its own power!"
+            )
 
     def copy(self):
         """
@@ -263,7 +269,7 @@ class TACard(Card):
 
 
 class InstructorCard(Card):
-    cardtype = 'Instructor'
+    cardtype = "Instructor"
 
     def effect(self, opponent_card, player, opponent, arg=None):
         """
@@ -302,8 +308,9 @@ class InstructorCard(Card):
 # Do not edit anything below this line #
 ########################################
 
+
 class Deck:
-    def __init__(self, cards:list[Card]):
+    def __init__(self, cards: list[Card]):
         """
         With a list of cards as input, create a deck.
         This deck should keep track of the cards it contains, and
@@ -316,7 +323,7 @@ class Deck:
         """
         Pick a random card from the deck and remove it from the deck.
         """
-        assert self.cards, 'The deck is empty!'
+        assert self.cards, "The deck is empty!"
         rand_index = random.randrange(len(self.cards))
         return self.cards.pop(rand_index)
 
@@ -353,18 +360,18 @@ class Game:
         if p1_power > p2_power:
             # Player 1 wins the round.
             self.p1_score += 1
-            result = 'won'
+            result = "won"
         elif p2_power > p1_power:
             # Player 2 wins the round.
             self.p2_score += 1
-            result = 'lost'
+            result = "lost"
         else:
             # This round is a draw.
-            result = 'tied'
+            result = "tied"
         # Display results to user.
-        print('You {} this round!'.format(result))
-        print('{}\'s card: {}; Power: {}'.format(self.player1.name, p1_card, p1_power))
-        print('Opponent\'s card: {}; Power: {}'.format(p2_card, p2_power))
+        print("You {} this round!".format(result))
+        print("{}'s card: {}; Power: {}".format(self.player1.name, p1_card, p1_power))
+        print("Opponent's card: {}; Power: {}".format(p2_card, p2_power))
 
     def game_won(self):
         """
@@ -379,5 +386,5 @@ class Game:
         """
         Display players' scores to the user.
         """
-        print('{}\'s score: {}'.format(self.player1.name, self.p1_score))
-        print('Opponent\'s score: {}'.format(self.p2_score))
+        print("{}'s score: {}".format(self.player1.name, self.p1_score))
+        print("Opponent's score: {}".format(self.p2_score))

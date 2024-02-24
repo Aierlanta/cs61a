@@ -1,11 +1,11 @@
 test = {
-  'name': 'Car',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Car",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> from car import *
           >>> deneros_car = Car('Tesla', 'Model S')
           >>> deneros_truck = MonsterTruck('Monster', 'Batmobile')
@@ -32,13 +32,13 @@ test = {
           >>> Car.rev(deneros_truck) # Type Error if an error occurs and Nothing if nothing is displayed
           Error
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
         }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+    ],
 }

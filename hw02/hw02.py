@@ -9,7 +9,7 @@ triple = lambda x: 3 * x
 increment = lambda x: x + 1
 
 
-HW_SOURCE_FILE=__file__
+HW_SOURCE_FILE = __file__
 
 
 def product(n, term):
@@ -64,12 +64,10 @@ def accumulate(merger, start, n, term):
     """
     result = start
     while n > 0:
-        result = merger(result,term(n))
+        result = merger(result, term(n))
         n -= 1
-        
+
     return result
-
-
 
 
 def summation_using_accumulate(n, term):
@@ -86,10 +84,7 @@ def summation_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(summation_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    return accumulate(add,0,n,term)
-     
-
-
+    return accumulate(add, 0, n, term)
 
 
 def product_using_accumulate(n, term):
@@ -106,11 +101,11 @@ def product_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(product_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    return accumulate(mul,1,n,term)
+    return accumulate(mul, 1, n, term)
 
 
 def funception(func1, begin):
-    """ Takes in a function (func1) and a begin value.
+    """Takes in a function (func1) and a begin value.
     Returns a function (func2) that will find the product of
     func1 applied to the range of numbers from
     begin (inclusive) to end (exclusive)
@@ -135,16 +130,14 @@ def funception(func1, begin):
     >>> g3(-1)   # increment(-3) * increment(-2) = -2 * -1 = 2
     2
     """
+
     def func2(end):
         s = 1
-        for i in range(begin,end):
+        for i in range(begin, end):
             s *= func1(i)
         return s
-    
+
     return func2
-
-
-
 
 
 def mul_by_num(num):
@@ -158,7 +151,8 @@ def mul_by_num(num):
     >>> y(-4)
     -8
     """
-    return lambda x : x * num
+    return lambda x: x * num
+
 
 def add_results(f1, f2):
     """
@@ -180,7 +174,7 @@ def add_results(f1, f2):
     >>> a3(4)
     44
     """
-    return lambda x  : f1(x) + f2(x)
+    return lambda x: f1(x) + f2(x)
 
 
 def mod_maker():
@@ -216,4 +210,3 @@ def lambda_math_syntax_check():
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(mod_maker)).body[0].body]
     ['Expr', 'Return']
     """
-

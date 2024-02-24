@@ -1,11 +1,11 @@
 test = {
-  'name': 'Trees',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Trees",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> t = Tree(1, Tree(2)) # Enter Function if you believe the answer is <function ...>, Error if it errors, and Nothing if nothing is displayed.
           Error
           >>> t = Tree(1, [Tree(2)])
@@ -26,13 +26,13 @@ test = {
           >>> t.branches[1]
           Tree(4, [Tree(8)])
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
         }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+    ],
 }

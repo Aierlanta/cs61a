@@ -1,11 +1,11 @@
 test = {
-  'name': 'Python Basics',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Python Basics",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> 10 + 2
           12
           >>> 7 / 2
@@ -15,18 +15,18 @@ test = {
           >>> 7 % 2  # 7 modulo 2, the remainder when dividing 7 by 2.
           1
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    },
-    {
-      'cases': [
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
+        },
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> x = 20
           >>> x + 2
           22
@@ -40,13 +40,13 @@ test = {
           >>> y + x # think carefully about what x is equal to!
           22
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
+        },
+    ],
 }

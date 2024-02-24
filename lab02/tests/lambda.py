@@ -1,59 +1,54 @@
 test = {
-  'name': 'Lambda the Free',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Lambda the Free",
+    "points": 0,
+    "suites": [
         {
-          'answer': 'A lambda expression does not automatically bind the function object that it returns to an intrinsic name.',
-          'choices': [
-            'A lambda expression does not automatically bind the function object that it returns to an intrinsic name.',
-            'A lambda expression cannot have more than two parameters.',
-            'A lambda expression cannot return another function.',
-            'A def statement can only have one line in its body.'
-          ],
-          'hidden': False,
-          'locked': False,
-          'multiline': False,
-          'question': 'Which of the following statements describes a difference between a def statement and a lambda expression?'
-        },
-        {
-          'answer': 'two',
-          'choices': [
-            'one',
-            'two',
-            'three',
-            'Not enough information'
-          ],
-          'hidden': False,
-          'locked': False,
-          'multiline': False,
-          'question': r"""
+            "cases": [
+                {
+                    "answer": "A lambda expression does not automatically bind the function object that it returns to an intrinsic name.",
+                    "choices": [
+                        "A lambda expression does not automatically bind the function object that it returns to an intrinsic name.",
+                        "A lambda expression cannot have more than two parameters.",
+                        "A lambda expression cannot return another function.",
+                        "A def statement can only have one line in its body.",
+                    ],
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                    "question": "Which of the following statements describes a difference between a def statement and a lambda expression?",
+                },
+                {
+                    "answer": "two",
+                    "choices": ["one", "two", "three", "Not enough information"],
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                    "question": r"""
           How many parameters does the following lambda expression have?
           lambda a, b: c + d
-          """
+          """,
+                },
+                {
+                    "answer": "When the function returned by the lambda expression is called.",
+                    "choices": [
+                        "When the function returned by the lambda expression is called.",
+                        "When you assign the lambda expression to a name.",
+                        "When the lambda expression is evaluated.",
+                        "When you pass the lambda expression into another function.",
+                    ],
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                    "question": "When is the return expression of a lambda expression executed?",
+                },
+            ],
+            "scored": False,
+            "type": "concept",
         },
         {
-          'answer': 'When the function returned by the lambda expression is called.',
-          'choices': [
-            'When the function returned by the lambda expression is called.',
-            'When you assign the lambda expression to a name.',
-            'When the lambda expression is evaluated.',
-            'When you pass the lambda expression into another function.'
-          ],
-          'hidden': False,
-          'locked': False,
-          'multiline': False,
-          'question': 'When is the return expression of a lambda expression executed?'
-        }
-      ],
-      'scored': False,
-      'type': 'concept'
-    },
-    {
-      'cases': [
-        {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> # If Python displays <function...>, type Function, if it errors type Error, if it displays nothing type Nothing
           >>> lambda x: x  # A lambda expression with one parameter x
           Function
@@ -74,12 +69,12 @@ test = {
           >>> d(square)
           16
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        },
-        {
-          'code': r"""
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                },
+                {
+                    "code": r"""
           >>> # Try drawing an environment diagram if you get stuck!
           >>> higher_order_lambda = lambda f: lambda x: f(x)
           >>> g = lambda x: x * x
@@ -98,13 +93,13 @@ test = {
           >>> one_thousand # What did the call to print_lambda return?
           Nothing
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                },
+            ],
+            "scored": False,
+            "type": "wwpp",
+        },
+    ],
 }

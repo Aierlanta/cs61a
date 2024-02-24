@@ -1,4 +1,3 @@
-
 from re import L
 
 
@@ -18,6 +17,7 @@ def composer(f, g):
     108
     """
     return lambda x: f(g(x))
+
 
 def composite_identity(f, g):
     """
@@ -42,6 +42,7 @@ def sum_digits(y):
         total, y = total + y % 10, y // 10
     return total
 
+
 def is_prime(n):
     if n == 1:
         return False
@@ -51,6 +52,7 @@ def is_prime(n):
             return False
         k += 1
     return True
+
 
 def count_cond(condition):
     """Returns a function with one parameter N that counts all the numbers from
@@ -77,16 +79,17 @@ def count_cond(condition):
     >>> count_primes(20)   # 2, 3, 5, 7, 11, 13, 17, 19
     8
     """
+
     def g(n):
         i = 1
         count = 0
         while i <= n:
-            if condition(n,i):
+            if condition(n, i):
                 count += 1
             i += 1
         return count
+
     return g
-        
 
 
 def multiple(a, b):
@@ -97,20 +100,18 @@ def multiple(a, b):
     >>> multiple(14, 21)
     42
     """
-    
-    def gcd(a,b):
+
+    def gcd(a, b):
         while b:
-            a,b = b,a
+            a, b = b, a
             result = a % b
             return result
+
     # print("==============>",gcd(a,b))
     if a == 0 or b == 0:
         return 0
     else:
         return abs(a * b) // gcd(a, b)
-    
-
-
 
 
 def cycle(f1, f2, f3):
@@ -140,4 +141,3 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-

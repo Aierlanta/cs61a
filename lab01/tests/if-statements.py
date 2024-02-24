@@ -1,11 +1,11 @@
 test = {
-  'name': 'What If?',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "What If?",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> def ab(c, d):
           ...     if c > 5:
           ...         print(c)
@@ -16,12 +16,12 @@ test = {
           10
           foo
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        },
-        {
-          'code': r"""
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                },
+                {
+                    "code": r"""
           >>> def bake(cake, make):
           ...    if cake == 0:
           ...        cake = cake + 1
@@ -39,13 +39,13 @@ test = {
           mashed potatoes
           'mashed potatoes'
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                },
+            ],
+            "scored": False,
+            "type": "wwpp",
         }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+    ],
 }

@@ -1,9 +1,6 @@
-
-
-
 def amplify(f, x):
     """Yield the longest sequence x, f(x), f(f(x)), ... that are all true values
-    
+
     >>> list(amplify(lambda s: s[1:], 'boxes'))
     ['boxes', 'oxes', 'xes', 'es', 's']
     >>> list(amplify(lambda x: x//2-1, 14))
@@ -35,15 +32,15 @@ class Person:
     'Would you please preserve abstraction barriers'
     """
 
-    def __init__(self, name:str):
+    def __init__(self, name: str):
         self.name = name
-        self.stuff = 'I squirreled it away before it could catch on fire.'
+        self.stuff = "I squirreled it away before it could catch on fire."
 
-    def say(self, stuff:str):
+    def say(self, stuff: str):
         self.stuff = stuff
         return stuff
 
-    def ask(self, stuff:str):
+    def ask(self, stuff: str):
         return self.say("Would you please " + stuff)
 
     def greet(self):
@@ -54,7 +51,7 @@ class Person:
 
 
 class SmartFridge:
-    """"
+    """ "
     >>> fridgey = SmartFridge()
     >>> fridgey.add_item('Mayo', 1)
     'I now have 1 Mayo'
@@ -73,13 +70,13 @@ class SmartFridge:
     """
 
     def __init__(self):
-        self.items:dict[str,float] = {}
+        self.items: dict[str, float] = {}
 
     def add_item(self, item: str, quantity: float):
         self.items[item] = self.items.get(item, 0) + quantity
         return f"I now have {self.items[item]} {item}"
 
-    def use_item(self, item:str, quantity:float):
+    def use_item(self, item: str, quantity: float):
         if self.items[item] < quantity:
             self.items[item] = 0
             return f"Oh no, we need more {item}!"
@@ -89,7 +86,6 @@ class SmartFridge:
             return f"Oh no, we need more {item}!"
 
         return f"I have {self.items[item]} {item} left"
-
 
 
 class CucumberGame:
@@ -135,8 +131,8 @@ class Round:
         self.winner = None
 
     def play(self, who, card):
-        assert not self.is_complete(), f'The round is over, player {who}'
-        assert who == self.next_player, f'It is not your turn, player {who}'
+        assert not self.is_complete(), f"The round is over, player {who}"
+        assert who == self.next_player, f"It is not your turn, player {who}"
         self.next_player = ______________________________________
         if card >= self.highest:
             ______________________________________
@@ -145,5 +141,5 @@ class Round:
             ______________________________________
 
     def is_complete(self):
-        """ Checks if a game could end. """
+        """Checks if a game could end."""
         return ______________________________________

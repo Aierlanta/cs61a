@@ -1,11 +1,11 @@
 test = {
-  'name': 'Inheritance ABCs',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Inheritance ABCs",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> class A:
           ...   x, y = 0, 0
           ...   def __init__(self):
@@ -32,13 +32,13 @@ test = {
           >>> print(A.y, B.y, C.y, obj.y)
           1 1 1 1
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
         }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+    ],
 }

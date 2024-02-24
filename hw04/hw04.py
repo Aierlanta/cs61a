@@ -2,7 +2,7 @@ from ast import main
 from re import I
 
 
-passphrase = '*** PASSPHRASE HERE ***'
+passphrase = "*** PASSPHRASE HERE ***"
 
 
 def midsem_survey(p):
@@ -12,7 +12,8 @@ def midsem_survey(p):
     '3d9f1125b109b311959d068240016badb874603eab75302a445e1a50'
     """
     import hashlib
-    return hashlib.sha224(p.encode('utf-8')).hexdigest()
+
+    return hashlib.sha224(p.encode("utf-8")).hexdigest()
 
 
 HW_SOURCE_FILE = __file__
@@ -22,12 +23,12 @@ def mobile(left, right):
     """Construct a mobile from a left arm and a right arm."""
     assert is_arm(left), "left must be a arm"
     assert is_arm(right), "right must be a arm"
-    return ['mobile', left, right]
+    return ["mobile", left, right]
 
 
 def is_mobile(m):
     """Return whether m is a mobile."""
-    return type(m) == list and len(m) == 3 and m[0] == 'mobile'
+    return type(m) == list and len(m) == 3 and m[0] == "mobile"
 
 
 def left(m):
@@ -45,12 +46,12 @@ def right(m):
 def arm(length, mobile_or_planet):
     """Construct a arm: a length of rod with a mobile or planet at the end."""
     assert is_mobile(mobile_or_planet) or is_planet(mobile_or_planet)
-    return ['arm', length, mobile_or_planet]
+    return ["arm", length, mobile_or_planet]
 
 
 def is_arm(s):
     """Return whether s is a arm."""
-    return type(s) == list and len(s) == 3 and s[0] == 'arm'
+    return type(s) == list and len(s) == 3 and s[0] == "arm"
 
 
 def length(s):
@@ -68,27 +69,23 @@ def end(s):
 def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
-    return ['planet', mass]
+    return ["planet", mass]
 
 
 def mass(w):
     """Select the mass of a planet."""
-    assert is_planet(w), 'must call mass on a planet'
+    assert is_planet(w), "must call mass on a planet"
     return w[1]
-
 
 
 def is_planet(w):
     """Whether w is a planet."""
-    return type(w) == list and len(w) == 2 and w[0] == 'planet'
+    return type(w) == list and len(w) == 2 and w[0] == "planet"
 
 
 def examples():
-    t = mobile(arm(1, planet(2)),
-               arm(2, planet(1)))
-    u = mobile(arm(5, planet(1)),
-               arm(1, mobile(arm(2, planet(3)),
-                             arm(3, planet(2)))))
+    t = mobile(arm(1, planet(2)), arm(2, planet(1)))
+    u = mobile(arm(5, planet(1)), arm(1, mobile(arm(2, planet(3)), arm(3, planet(2)))))
     v = mobile(arm(4, t), arm(2, u))
     return t, u, v
 
@@ -140,18 +137,19 @@ def balanced(m):
         #     return False
         # else:
         #     return balanced(end(left(m))) and balanced(end(right(m)))
-        return all([left_torque == right_torque, balanced(end(left(m))), balanced(end(right(m)))])
-
-
+        return all(
+            [
+                left_torque == right_torque,
+                balanced(end(left(m))),
+                balanced(end(right(m))),
+            ]
+        )
 
     # if is_mobile(m):
     #     left_torque = left(m)[1] * total_weight(m)
     #     right_torque = right(m)[1] * total_weight(m)
     #     return left_torque == right_torque
     # return balanced(b for b in left(m)) == balanced(b for b in right(m))
-
-
-
 
 
 def totals_tree(m):
@@ -185,7 +183,7 @@ def totals_tree(m):
     """
     # t = []
     # def build_tree(m):
-        
+
     #     t = tree(total_weight(m))
     #     t = branches(t)
 
@@ -194,8 +192,9 @@ def totals_tree(m):
     if is_planet(m):
         return tree(mass(m))
     else:
-        return tree(total_weight(m),[totals_tree(end(left(m))),totals_tree(end(right(m)))])
-
+        return tree(
+            total_weight(m), [totals_tree(end(left(m))), totals_tree(end(right(m)))]
+        )
 
 
 def replace_loki_at_leaf(t, lokis_replacement):
@@ -228,12 +227,14 @@ def replace_loki_at_leaf(t, lokis_replacement):
     True
     """
     if is_leaf(t):
-        if label(t) == 'loki':
+        if label(t) == "loki":
             return tree(lokis_replacement)
         else:
             return t
     else:
-        return tree(label(t), [replace_loki_at_leaf(b, lokis_replacement) for b in branches(t)])
+        return tree(
+            label(t), [replace_loki_at_leaf(b, lokis_replacement) for b in branches(t)]
+        )
 
 
 def has_path(t, word):
@@ -266,13 +267,13 @@ def has_path(t, word):
     >>> has_path(greetings, 'hint')
     False
     """
-    assert len(word) > 0, 'no path for empty word.'
+    assert len(word) > 0, "no path for empty word."
 
     if label(t) != word[0]:
-            return False
+        return False
     if len(label(t)) == 1:
         return True
-    
+
     for b in branches(t):
         if has_path(b, word[1:]):
             return True
@@ -280,13 +281,9 @@ def has_path(t, word):
     return False
 
 
-
-
-
-
 def str_interval(x):
     """Return a string representation of interval x."""
-    return '{0} to {1}'.format(lower_bound(x), upper_bound(x))
+    return "{0} to {1}".format(lower_bound(x), upper_bound(x))
 
 
 def add_interval(x, y):
@@ -299,7 +296,7 @@ def add_interval(x, y):
 
 def interval(a, b):
     """Construct an interval from a to b."""
-    assert a <= b, 'Lower bound cannot be greater than upper bound'
+    assert a <= b, "Lower bound cannot be greater than upper bound"
     return [a, b]
 
 
@@ -315,7 +312,7 @@ def upper_bound(x):
 
 def str_interval(x):
     """Return a string representation of interval x."""
-    return '{0} to {1}'.format(lower_bound(x), upper_bound(x))
+    return "{0} to {1}".format(lower_bound(x), upper_bound(x))
 
 
 def add_interval(x, y):
@@ -378,10 +375,11 @@ def check_par():
 
 # Tree ADT
 
+
 def tree(label, branches=[]):
     """Construct a tree with the given label value and a list of branches."""
     for branch in branches:
-        assert is_tree(branch), 'branches must be trees'
+        assert is_tree(branch), "branches must be trees"
     return [label] + list(branches)
 
 
@@ -431,7 +429,7 @@ def print_tree(t, indent=0):
       6
         7
     """
-    print('  ' * indent + str(label(t)))
+    print("  " * indent + str(label(t)))
     for b in branches(t):
         print_tree(b, indent + 1)
 

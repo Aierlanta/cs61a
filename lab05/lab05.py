@@ -36,6 +36,7 @@ def flatten(s):
     helper(s)
     return arr
 
+
 def my_map(fn, seq):
     """Applies fn onto each element in seq and returns a list.
     >>> my_map(lambda x: x*x, [1, 2, 3])
@@ -67,7 +68,7 @@ def my_filter(pred, seq):
     >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
     [1, 2, 3, 4, 5]
     """
-    return [x for x in filter(pred,seq)]
+    return [x for x in filter(pred, seq)]
 
 
 def my_reduce(combiner, seq):
@@ -85,7 +86,7 @@ def my_reduce(combiner, seq):
     result = seq[0]
 
     for i in seq[1:]:
-        result = combiner(result,i)
+        result = combiner(result, i)
     return result
 
 
@@ -125,7 +126,10 @@ def distance(city_a, city_b):
     >>> distance(city_c, city_d)
     5.0
     """
-    return sqrt((get_lat(city_a) - get_lat(city_b)) ** 2 + (get_lon(city_a) - get_lon(city_b)) ** 2)
+    return sqrt(
+        (get_lat(city_a) - get_lat(city_b)) ** 2
+        + (get_lon(city_a) - get_lon(city_b)) ** 2
+    )
 
 
 def closer_city(lat, lon, city_a, city_b):
@@ -143,8 +147,12 @@ def closer_city(lat, lon, city_a, city_b):
     >>> closer_city(41.29, 174.78, bucharest, vienna)
     'Bucharest'
     """
-    return get_name(min([city_a,city_b],key=lambda city: distance(make_city('tmp_city',lat,lon),city)))
-
+    return get_name(
+        min(
+            [city_a, city_b],
+            key=lambda city: distance(make_city("tmp_city", lat, lon), city),
+        )
+    )
 
 
 def check_city_abstraction():
@@ -169,6 +177,7 @@ def check_city_abstraction():
     'Bucharest'
     >>> change_abstraction(False)
     """
+
 
 # Treat all the following code as being behind an abstraction layer,
 # you shouldn't need to look at it.
@@ -224,6 +233,7 @@ def get_lon(city):
         return city["lon"]
     else:
         return city[2]
+
 
 ###############
 

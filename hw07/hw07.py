@@ -153,16 +153,17 @@ def add_d_leaves(t: Tree, v: int) -> None:
         10
     """
 
-    # def helper(tree:Tree, d:int) -> None:
-    #     for b in tree.branches:
-    #         if b.is_leaf():
-    #             for _ in range(d):
-    #                 b.branches.append(Tree(v))
-    #         elif not b.is_leaf():
-    #             return helper(b, d + 1)
-    
-    # return helper(t, 0)
+    def helper(tree: Tree, d: int) -> None:
+        if tree.is_leaf():
+            for b in tree.branches:
+                b.branches.extend([Tree(v)] * (d))
+            return
+        assert not tree.is_leaf()
+        for b in tree.branches:
+            helper(b, d + 1)
+            b.branches.extend([Tree(v)] * (d))
 
+    helper(t, 1)
 
 
 class Link:

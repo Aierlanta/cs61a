@@ -1,11 +1,11 @@
 test = {
-  'name': 'List Mutation',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "List Mutation",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> # If nothing would be output by Python, type Nothing
           >>> # If the code would error, type Error
           >>> lst = [5, 6, 7, 8]
@@ -37,13 +37,13 @@ test = {
           >>> lst
           [1, 2, 3, 4, 5, 9, 10, None, None]
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
         }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+    ],
 }

@@ -217,7 +217,7 @@ class TeamMember:
 
 
 class Cat:
-    def __init__(self, name:str, owner:str, lives:int=9):
+    def __init__(self, name: str, owner: str, lives: int = 9):
         self.is_alive = True
         self.name = name
         self.owner = owner
@@ -227,7 +227,7 @@ class Cat:
         return self.name + " says meow!"
 
     @classmethod
-    def cat_creator(cls, owner:str):
+    def cat_creator(cls, owner: str):
         """
         Returns a new instance of a Cat.
 

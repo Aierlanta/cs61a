@@ -153,6 +153,7 @@ def count_coins(total):
     >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])
     True
     """
+
     @cache
 
     # def count_partitions(n: int, coin: int):
@@ -183,7 +184,9 @@ def count_coins(total):
         else:
             with_max = coin_counter(total - m, m)  # 使用最大面额的硬币
             if m > 1:
-                without_max = coin_counter(total, next_smaller_coin(m))  # 不使用最大面额的硬币
+                without_max = coin_counter(
+                    total, next_smaller_coin(m)
+                )  # 不使用最大面额的硬币
             else:
                 assert m == 1
                 without_max = 0

@@ -119,9 +119,8 @@ def yield_paths(t, value):
     if label(t) == value:
         yield [value]
     for b in branches(t):
-        for x in yield_paths(b,value):
+        for x in yield_paths(b, value):
             yield [label(t)] + x
-            
 
 
 def remainders_generator(m):
@@ -160,10 +159,11 @@ def remainders_generator(m):
 
 # Tree ADT
 
+
 def tree(label, branches=[]):
     """Construct a tree with the given label value and a list of branches."""
     for branch in branches:
-        assert is_tree(branch), 'branches must be trees'
+        assert is_tree(branch), "branches must be trees"
     return [label] + list(branches)
 
 
@@ -213,7 +213,7 @@ def print_tree(t, indent=0):
       6
         7
     """
-    print('  ' * indent + str(label(t)))
+    print("  " * indent + str(label(t)))
     for b in branches(t):
         print_tree(b, indent + 1)
 

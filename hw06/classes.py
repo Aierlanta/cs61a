@@ -1,5 +1,6 @@
 # A "simple" adventure game.
 
+
 class Player:
     def __init__(self, name, place):
         """Create a player object."""
@@ -34,7 +35,7 @@ class Player:
         """
         destination_place = self.place.get_neighbor(location)
         if destination_place.locked:
-            print(destination_place.name, 'is locked! Go look for a key to unlock it')
+            print(destination_place.name, "is locked! Go look for a key to unlock it")
         "*** YOUR CODE HERE ***"
 
     def talk_to(self, person):
@@ -51,7 +52,7 @@ class Player:
         Tiffany is not here.
         """
         if type(person) != str:
-            print('Person has to be a string.')
+            print("Person has to be a string.")
         "*** YOUR CODE HERE ***"
 
     def take(self, thing):
@@ -76,7 +77,7 @@ class Player:
         1
         """
         if type(thing) != str:
-            print('Thing should be a string.')
+            print("Thing should be a string.")
         "*** YOUR CODE HERE ***"
 
     def check_backpack(self):
@@ -107,12 +108,12 @@ class Player:
         >>> food
         ['Cookie', 'Donut']
         """
-        print('In your backpack:')
+        print("In your backpack:")
         if not self.backpack:
-            print('    there is nothing.')
+            print("    there is nothing.")
         else:
             for item in self.backpack:
-                print('   ', item.name, '-', item.description)
+                print("   ", item.name, "-", item.description)
         return [item.name for item in self.backpack]
 
     def unlock(self, place):
@@ -190,19 +191,19 @@ class Place:
         self.exits = {}  # {'name': (exit, 'description')}
 
     def look(self):
-        print('You are currently at ' + self.name + '. You take a look around and see:')
-        print('Characters:')
+        print("You are currently at " + self.name + ". You take a look around and see:")
+        print("Characters:")
         if not self.characters:
-            print('    no one in particular')
+            print("    no one in particular")
         else:
             for character in self.characters:
-                print('   ', character)
-        print('Things:')
+                print("   ", character)
+        print("Things:")
         if not self.things:
-            print('    nothing in particular')
+            print("    nothing in particular")
         else:
             for thing in self.things.values():
-                print('   ', thing.name, '-', thing.description)
+                print("   ", thing.name, "-", thing.description)
         self.check_exits()
 
     def get_neighbor(self, exit):
@@ -220,7 +221,7 @@ class Place:
         True
         """
         if type(exit) != str:
-            print('Exit has to be a string.')
+            print("Exit has to be a string.")
             return self
         elif exit in self.exits:
             exit_place = self.exits[exit][0]
@@ -234,9 +235,9 @@ class Place:
         return self.things.pop(thing)
 
     def check_exits(self):
-        print('You can exit to:')
+        print("You can exit to:")
         for exit in self.exits:
-            print('   ', exit)
+            print("   ", exit)
 
     def add_exits(self, places):
         for place in places:

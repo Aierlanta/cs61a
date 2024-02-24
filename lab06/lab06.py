@@ -5,7 +5,7 @@ from typing import Iterator
 HW_SOURCE_FILE = __file__
 
 
-def insert_items(lst:list, entry:int, elem:int):
+def insert_items(lst: list, entry: int, elem: int):
     """Inserts elem into lst after each occurrence of entry and then returns lst.
 
     >>> test_lst = [1, 5, 8, 5, 2, 3]
@@ -33,16 +33,13 @@ def insert_items(lst:list, entry:int, elem:int):
     ...       ['List', 'ListComp', 'Slice'])
     True
     """
-    i = 0 # 初始化一个索引变量
-    while i < len(lst): # 循环遍历列表
-        if lst[i] == entry: # 如果当前元素等于 entry
-            lst.insert(i + 1, elem) # 在它后面插入 elem
-            i += 1 # 增加索引，跳过插入的元素
-        i += 1 # 增加索引，继续遍历
-    return lst # 返回修改后的列表
-
-
-
+    i = 0  # 初始化一个索引变量
+    while i < len(lst):  # 循环遍历列表
+        if lst[i] == entry:  # 如果当前元素等于 entry
+            lst.insert(i + 1, elem)  # 在它后面插入 elem
+            i += 1  # 增加索引，跳过插入的元素
+        i += 1  # 增加索引，继续遍历
+    return lst  # 返回修改后的列表
 
 
 def count_occurrences(t, n, x):
@@ -66,7 +63,6 @@ def count_occurrences(t, n, x):
     2
     """
     return sum(i == x for i in islice(t, 0, n))
-
 
 
 def repeated(t, k):
@@ -110,16 +106,16 @@ def repeated(t, k):
     it = next(t)
     bak = k
 
-    def helper(t:Iterator[int],k:int,it:int):
+    def helper(t: Iterator[int], k: int, it: int):
         if k == 1:
             return it
         i = next(t)
         if it == i:
-            return helper(t,k - 1,it)
+            return helper(t, k - 1, it)
         if it != i:
-            return helper(t,bak,i)
+            return helper(t, bak, i)
 
-    return helper(t,k,it)
+    return helper(t, k, it)
 
     """
     assert k > 1
@@ -158,11 +154,6 @@ def repeated(t, k):
     #         it = i # “第一个元素”后移（变成第二个元素）
     #     if cur == k: # cur等于k ，返回cur
     #         return it
-
-
-
-
-
 
 
 def partial_reverse(lst, start):

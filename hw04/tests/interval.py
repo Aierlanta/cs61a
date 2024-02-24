@@ -1,11 +1,11 @@
 test = {
-  'name': 'interval',
-  'points': 1,
-  'suites': [
-    {
-      'cases': [
+    "name": "interval",
+    "points": 1,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> str_interval(interval(-1, 2))
           5657a44e93e1e7598d0a2224aa347b8a
           # locked
@@ -13,23 +13,23 @@ test = {
           31c95be25607aec023bc3067fd1c77f6
           # locked
           """,
-          'hidden': False,
-          'locked': True,
-          'multiline': False
-        }
-      ],
-      'scored': True,
-      'setup': r"""
+                    "hidden": False,
+                    "locked": True,
+                    "multiline": False,
+                }
+            ],
+            "scored": True,
+            "setup": r"""
       >>> import hw04
       >>> from hw04 import *
       """,
-      'teardown': '',
-      'type': 'doctest'
-    },
-    {
-      'cases': [
+            "teardown": "",
+            "type": "doctest",
+        },
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> # Testing for abstraction violations
           >>> # Your code should not check for which implementation is used
           >>> str_interval(interval(-1, 2))
@@ -37,13 +37,13 @@ test = {
           >>> str_interval(add_interval(interval(-1, 2), interval(4, 8)))
           '3 to 10'
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': True,
-      'setup': r"""
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": True,
+            "setup": r"""
       >>> import hw04
       >>> old_abstraction = hw04.interval, hw04.lower_bound, hw04.upper_bound
       >>> hw04.interval = lambda a, b: lambda x: a if x == 0 else b
@@ -51,10 +51,10 @@ test = {
       >>> hw04.upper_bound = lambda s: s(1)
       >>> from hw04 import *
       """,
-      'teardown': r"""
+            "teardown": r"""
       >>> hw04.interval, hw04.lower_bound, hw04.upper_bound = old_abstraction
       """,
-      'type': 'doctest'
-    }
-  ]
+            "type": "doctest",
+        },
+    ],
 }

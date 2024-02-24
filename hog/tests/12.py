@@ -1,20 +1,20 @@
 test = {
-  'name': 'Question 12',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Question 12",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> check_strategy(hog.final_strategy)
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'setup': r"""
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "setup": r"""
       >>> import hog
       >>> def check_strategy(strat):
       ...     for score in range(100):
@@ -27,10 +27,10 @@ test = {
       >>> old_max_scoring_num_rolls = hog.max_scoring_num_rolls
       >>> hog.max_scoring_num_rolls = max_scoring_num_rolls
       """,
-      'teardown': r"""
+            "teardown": r"""
       >>> hog.max_scoring_num_rolls = old_max_scoring_num_rolls
       """,
-      'type': 'doctest'
-    }
-  ]
+            "type": "doctest",
+        }
+    ],
 }

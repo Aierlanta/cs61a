@@ -50,6 +50,7 @@ class Account:
             year += 1
         return year
 
+
 @dataclass
 class FreeChecking(Account):
     """A bank account that charges for withdrawals, but the first two are free!
@@ -77,7 +78,7 @@ class FreeChecking(Account):
 
     withdraw_fee = 1
     free_withdrawals = 2
-    account_holder:str
+    account_holder: str
 
     def withdraw(self, amount: int):
         if self.free_withdrawals != 0:
@@ -85,4 +86,3 @@ class FreeChecking(Account):
             return super().withdraw(amount)
         else:
             return super().withdraw(amount + self.withdraw_fee)
-

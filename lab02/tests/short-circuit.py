@@ -1,11 +1,11 @@
 test = {
-  'name': 'The Truth Will Prevail',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "The Truth Will Prevail",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> True and 13
           13
           >>> False or 0
@@ -15,18 +15,18 @@ test = {
           >>> not None
           True
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    },
-    {
-      'cases': [
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
+        },
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> True and 1 / 0  # If this errors, just type Error.
           Error
           >>> True or 1 / 0  # If this errors, just type Error.
@@ -38,28 +38,28 @@ test = {
           >>> (1 + 1) and 1  # If this errors, just type Error. If this is blank, just type Nothing.
           1
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        },
-        {
-          'code': r"""
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                },
+                {
+                    "code": r"""
           >>> print(3) or ""
           3
           ''
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': True
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    },
-    {
-      'cases': [
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": True,
+                },
+            ],
+            "scored": False,
+            "type": "wwpp",
+        },
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> def f(x):
           ...     if x == 0:
           ...         return "I am zero!"
@@ -74,13 +74,13 @@ test = {
           >>> f(0) and f(-1)
           ''
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
+        },
+    ],
 }

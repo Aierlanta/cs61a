@@ -11,11 +11,15 @@ from hog import *
 
 def play_and_print(strategy0, strategy1):
     """Simulate a game and print out what happened during the simulation."""
-    final0, final1 = play(printing_strategy(0, strategy0),
-                          printing_strategy(1, strategy1),
-                          sus_update_and_print, 0, 0,
-                          printing_dice(six_sided))
-    print('The final score is Player 0:', final0, 'vs Player 1:', final1)
+    final0, final1 = play(
+        printing_strategy(0, strategy0),
+        printing_strategy(1, strategy1),
+        sus_update_and_print,
+        0,
+        0,
+        printing_dice(six_sided),
+    )
+    print("The final score is Player 0:", final0, "vs Player 1:", final1)
 
 
 def printing_strategy(who, strategy):
@@ -32,7 +36,7 @@ def printing_strategy(who, strategy):
     The score is 16 to 8 and Player 1 rolls 5 dice...
     5
     """
-    assert who == 0 or who == 1, 'the player must be 0 or 1'
+    assert who == 0 or who == 1, "the player must be 0 or 1"
 
     def choose_and_print(score, opponent_score):
         "A strategy function that also prints."
@@ -41,19 +45,31 @@ def printing_strategy(who, strategy):
         else:
             score0, score1 = opponent_score, score
         num_rolls = strategy(score, opponent_score)
-        print('The score is', score0, 'to', score1, 'and Player', who,
-              'rolls', num_rolls, 'dice...')
+        print(
+            "The score is",
+            score0,
+            "to",
+            score1,
+            "and Player",
+            who,
+            "rolls",
+            num_rolls,
+            "dice...",
+        )
         return num_rolls
+
     return choose_and_print
 
 
 def printing_dice(dice):
     """Return a dice function that also prints the outcome and a space."""
+
     def dice_and_print():
         "A dice function that also prints."
         outcome = dice()
-        print(outcome, end=' ')
+        print(outcome, end=" ")
         return outcome
+
     return dice_and_print
 
 
@@ -66,15 +82,17 @@ def sus_update_and_print(num_rolls, player_score, opponent_score, dice):
       [ 4 5 3 ] => 12; 9 + 12 = 21 triggering **Sus Fuss**, increasing to 23
     23
     """
-    print('  [', end=" ")
-    turn_score = take_turn(num_rolls, player_score, opponent_score, dice)  # Prints dice outcomes
-    print('] =>', turn_score, end='; ')
-    print(player_score, '+', turn_score, '=', player_score + turn_score, end='')
+    print("  [", end=" ")
+    turn_score = take_turn(
+        num_rolls, player_score, opponent_score, dice
+    )  # Prints dice outcomes
+    print("] =>", turn_score, end="; ")
+    print(player_score, "+", turn_score, "=", player_score + turn_score, end="")
     score = turn_score + player_score
     sus_score = sus_points(score)
     if sus_score != score:
         score = sus_score
-        print(' triggering **Sus Fuss**, increasing to', score)
+        print(" triggering **Sus Fuss**, increasing to", score)
     else:
         print()  # This print completes the line without adding any additional text
     return score
@@ -89,17 +107,21 @@ def get_int(prompt, lower, upper):
     """Return an integer i such that i >= lower and i <= upper."""
     choice = input(prompt)
     while not choice.isnumeric() or int(choice) < lower or int(choice) > upper:
-        print('Please enter an integer from', lower, 'to', upper)
+        print("Please enter an integer from", lower, "to", upper)
         choice = input(prompt)
     return int(choice)
 
 
 def interactive_strategy(who):
     """Return a strategy for which the user provides the number of rolls."""
+
     def strategy(score, opponent_score):
-        print('Player', who, ', you have', score, 'and your opponent has', opponent_score)
-        choice = get_int('How many dice will you roll? ', 0, 10)
+        print(
+            "Player", who, ", you have", score, "and your opponent has", opponent_score
+        )
+        choice = get_int("How many dice will you roll? ", 0, 10)
         return choice
+
     return strategy
 
 
@@ -117,15 +139,21 @@ def play_with(num_players):
     elif num_players == 2:
         play_and_print(interactive_strategy(0), interactive_strategy(1))
     else:
-        print('num_players must be 0, 1, or 2.')
+        print("num_players must be 0, 1, or 2.")
 
 
 @main
 def run(*args):
     """Select number of players and play a game."""
     import argparse
+
     parser = argparse.ArgumentParser(description="Play Hog")
-    parser.add_argument('--num_players', '-n', type=int, default=0,
-                        help='How many interactive players (0, 1, or 2)')
+    parser.add_argument(
+        "--num_players",
+        "-n",
+        type=int,
+        default=0,
+        help="How many interactive players (0, 1, or 2)",
+    )
     args = parser.parse_args()
     play_with(args.num_players)

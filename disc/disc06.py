@@ -68,8 +68,9 @@ def copy_tree(t):
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
 
-############################################# 
-               # start #
+
+#############################################
+# start #
 #############################################
 def add_this_many(x: int, el: int, s: list):
     """Adds el to the end of s the number of times x occurs in s.
@@ -88,7 +89,6 @@ def add_this_many(x: int, el: int, s: list):
     # # s.extend([x for _ in range(s.count(x))])
     # # 在生成的列表的末尾添加 el 这个元素，添加的次数也是 x 在 s 中出现的次数
     # s.extend([el for _ in range(s.count(x))])
-
 
 
 def filter_iter(iterable, f):
@@ -148,16 +148,16 @@ def primes_gen(n):
         yield n
 
     yield from primes_gen(n - 1)
+
+
 ########################################################
 ####                   升序                         #####
 ########################################################
-    # if n <= 1:
-    #     return  # 如果 n 小于等于 1，就结束函数
-    # yield from primes_gen(n - 1)  # 先返回 n-1 以下的素数
-    # if is_prime(n):
-    #     yield n  # 再返回 n 本身，如果 n 是素数
-
-
+# if n <= 1:
+#     return  # 如果 n 小于等于 1，就结束函数
+# yield from primes_gen(n - 1)  # 先返回 n-1 以下的素数
+# if is_prime(n):
+#     yield n  # 再返回 n 本身，如果 n 是素数
 
 
 def preorder(t):
@@ -171,6 +171,7 @@ def preorder(t):
     [2, 4, 6]
     """
     result = []
+
     def helper(t):
         # 如果树为空，就返回
         if t is None:
@@ -180,6 +181,7 @@ def preorder(t):
         # 然后遍历树的每个分支，并递归地调用辅助函数
         for b in branches(t):
             helper(b)
+
     helper(t)
     return result
 
@@ -197,7 +199,7 @@ def generate_preorder(t):
     """
     if t is None:
         return
-    
-    yield label(t) # root
+
+    yield label(t)  # root
     for b in branches(t):
-        yield from generate_preorder(b) #child
+        yield from generate_preorder(b)  # child

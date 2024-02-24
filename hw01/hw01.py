@@ -44,7 +44,7 @@ def two_of_three(i, j, k):
     >>> two_of_three(5, 5, 5)
     50
     """
-    return (i ** 2) + (j * j) + (k * k) - (max(i, j, k) * max(i, j, k))
+    return (i**2) + (j * j) + (k * k) - (max(i, j, k) * max(i, j, k))
 
 
 def two_of_three_syntax_check():

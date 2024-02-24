@@ -1,11 +1,11 @@
 test = {
-  'name': 'Lists',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
+    "name": "Lists",
+    "points": 0,
+    "suites": [
         {
-          'code': r"""
+            "cases": [
+                {
+                    "code": r"""
           >>> s = [7//3, 5, [4, 0, 1], 2]
           >>> s[0]
           2
@@ -39,13 +39,13 @@ test = {
           >>> x[::-1]
           [4, 3, 2, 1]
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
+                    "hidden": False,
+                    "locked": False,
+                    "multiline": False,
+                }
+            ],
+            "scored": False,
+            "type": "wwpp",
         }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+    ],
 }
