@@ -1,4 +1,7 @@
-def insert_into_all(item, nested_list):
+from typing import Any
+
+
+def insert_into_all(item: int, nested_list: list[list[int]]):
     """Return a new list consisting of all the lists in nested_list,
     but with item added to the front of each. You can assume that
      nested_list is a list of lists.
@@ -7,10 +10,12 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    "*** YOUR CODE HERE ***"
+    for ls in nested_list:
+        ls.insert(0, item)
+    return nested_list
 
 
-def subseqs(s):
+def subseqs(s: list[list[int | None]]) -> Any:
     """Return a nested list (a list of lists) of all subsequences of S.
     The subsequences can appear in any order. You can assume S is a list.
 
@@ -20,14 +25,14 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if s == []:
+        return [[]]
     else:
-        ________________
-        ________________
+        r = subseqs(s[1:])
+        return r + [[s[0]] + x for x in r]
 
 
-def non_decrease_subseqs(s):
+def non_decrease_subseqs(s: list[int])-> list[int]:
     """Assuming that S is a list, return a nested list of all subsequences
     of S (a list of lists) for which the elements of the subsequence
     are strictly nondecreasing. The subsequences can appear in any order.
@@ -41,19 +46,21 @@ def non_decrease_subseqs(s):
     >>> sorted(seqs2)
     [[], [1], [1], [1, 1], [1, 1, 2], [1, 2], [1, 2], [2]]
     """
-    def subseq_helper(s, prev):
+
+    def subseq_helper(s:list[int], prev:int)->Any:
         if not s:
-            return ____________________
+            return [[]]
         elif s[0] < prev:
-            return ____________________
+            return subseq_helper(s[1:], prev)
         else:
-            a = ______________________
-            b = ______________________
-            return insert_into_all(________, ______________) + ________________
-    return subseq_helper(____, ____)
+            a = subseq_helper(s[1:], s[0])
+            b = subseq_helper(s[1:], prev)
+            return insert_into_all(s[0], a) + b
+
+    return subseq_helper(s, 0)
 
 
-def num_trees(n):
+def num_trees(n:int):
     """Returns the number of unique full binary trees with exactly n leaves. E.g.,
 
     1   2        3       3    ...
@@ -86,6 +93,7 @@ def partition_gen(n):
     [2, 1, 1]
     [1, 1, 1, 1]
     """
+
     def yield_helper(j, k):
         if j == 0:
             ____________________________________________
@@ -93,6 +101,7 @@ def partition_gen(n):
             for small_part in ________________________________:
                 yield ____________________________________________
             yield ________________________________________
+
     yield from yield_helper(n, n)
 
 
@@ -142,15 +151,15 @@ def trade(first, second):
 
     if equal_prefix():
         first[:m], second[:n] = second[:n], first[:m]
-        return 'Deal!'
+        return "Deal!"
     else:
-        return 'No deal!'
+        return "No deal!"
 
 
 def card(n):
     """Return the playing card numeral as a string for a positive n <= 13."""
     assert type(n) == int and n > 0 and n <= 13, "Bad card n"
-    specials = {1: 'A', 11: 'J', 12: 'Q', 13: 'K'}
+    specials = {1: "A", 11: "J", 12: "Q", 13: "K"}
     return specials.get(n, str(n))
 
 
@@ -172,7 +181,7 @@ def shuffle(cards):
     >>> cards[:12]  # Should not be changed
     ['AH', 'AD', 'AS', 'AC', '2H', '2D', '2S', '2C', '3H', '3D', '3S', '3C']
     """
-    assert len(cards) % 2 == 0, 'len(cards) must be even'
+    assert len(cards) % 2 == 0, "len(cards) must be even"
     half = _______________
     shuffled = []
     for i in _____________:
@@ -227,7 +236,7 @@ def deep_len(lnk):
 
 
 def make_to_string(front, mid, back, empty_repr):
-    """ Returns a function that turns linked lists to strings.
+    """Returns a function that turns linked lists to strings.
 
     >>> kevins_to_string = make_to_string("[", "|-]-->", "", "[]")
     >>> jerrys_to_string = make_to_string("(", " . ", ")", "()")
@@ -241,11 +250,13 @@ def make_to_string(front, mid, back, empty_repr):
     >>> jerrys_to_string(Link.empty)
     '()'
     """
+
     def printer(lnk):
         if ______________:
             return _________________________
         else:
             return _________________________
+
     return printer
 
 
@@ -285,6 +296,7 @@ class Link:
     >>> print(s)                             # Prints str(s)
     <5 7 <8 9>>
     """
+
     empty = ()
 
     def __init__(self, first, rest=empty):
@@ -294,17 +306,17 @@ class Link:
 
     def __repr__(self):
         if self.rest is not Link.empty:
-            rest_repr = ', ' + repr(self.rest)
+            rest_repr = ", " + repr(self.rest)
         else:
-            rest_repr = ''
-        return 'Link(' + repr(self.first) + rest_repr + ')'
+            rest_repr = ""
+        return "Link(" + repr(self.first) + rest_repr + ")"
 
     def __str__(self):
-        string = '<'
+        string = "<"
         while self.rest is not Link.empty:
-            string += str(self.first) + ' '
+            string += str(self.first) + " "
             self = self.rest
-        return string + str(self.first) + '>'
+        return string + str(self.first) + ">"
 
 
 class Tree:
@@ -329,15 +341,16 @@ class Tree:
 
     def __repr__(self):
         if self.branches:
-            branch_str = ', ' + repr(self.branches)
+            branch_str = ", " + repr(self.branches)
         else:
-            branch_str = ''
-        return 'Tree({0}{1})'.format(self.label, branch_str)
+            branch_str = ""
+        return "Tree({0}{1})".format(self.label, branch_str)
 
     def __str__(self):
         def print_tree(t, indent=0):
-            tree_str = '  ' * indent + str(t.label) + "\n"
+            tree_str = "  " * indent + str(t.label) + "\n"
             for b in t.branches:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
+
         return print_tree(self).rstrip()
