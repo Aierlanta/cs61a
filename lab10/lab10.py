@@ -1,3 +1,5 @@
+from __future__ import annotations
+from functools import lru_cache
 from typing import Any
 
 
@@ -59,7 +61,7 @@ def non_decrease_subseqs(s: list[int])-> list[int]:
 
     return subseq_helper(s, 0)
 
-
+@lru_cache
 def num_trees(n:int):
     """Returns the number of unique full binary trees with exactly n leaves. E.g.,
 
@@ -80,7 +82,13 @@ def num_trees(n:int):
     429
 
     """
-    "*** YOUR CODE HERE ***"
+    if n == 1 or n == 2:
+        return 1
+    # catalan number
+    ans = 0
+    for i in range(1, n):
+        ans += num_trees(i) * num_trees(n - i)
+    return ans
 
 
 def partition_gen(n):
@@ -330,7 +338,7 @@ class Tree:
     True
     """
 
-    def __init__(self, label, branches=[]):
+    def __init__(self, label:int, branches:list[Tree]=[]):
         for b in branches:
             assert isinstance(b, Tree)
         self.label = label
