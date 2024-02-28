@@ -34,7 +34,7 @@ def subseqs(s: list[list[int | None]]) -> Any:
         return r + [[s[0]] + x for x in r]
 
 
-def non_decrease_subseqs(s: list[int])-> list[int]:
+def non_decrease_subseqs(s: list[int]) -> list[int]:
     """Assuming that S is a list, return a nested list of all subsequences
     of S (a list of lists) for which the elements of the subsequence
     are strictly nondecreasing. The subsequences can appear in any order.
@@ -49,7 +49,7 @@ def non_decrease_subseqs(s: list[int])-> list[int]:
     [[], [1], [1], [1, 1], [1, 1, 2], [1, 2], [1, 2], [2]]
     """
 
-    def subseq_helper(s:list[int], prev:int)->Any:
+    def subseq_helper(s: list[int], prev: int) -> Any:
         if not s:
             return [[]]
         elif s[0] < prev:
@@ -61,8 +61,9 @@ def non_decrease_subseqs(s: list[int])-> list[int]:
 
     return subseq_helper(s, 0)
 
+
 @lru_cache
-def num_trees(n:int):
+def num_trees(n: int):
     """Returns the number of unique full binary trees with exactly n leaves. E.g.,
 
     1   2        3       3    ...
@@ -91,7 +92,7 @@ def num_trees(n:int):
     return ans
 
 
-def partition_gen(n):
+def partition_gen(n: int):
     """
     >>> for partition in partition_gen(4): # note: order doesn't matter
     ...     print(partition)
@@ -102,13 +103,18 @@ def partition_gen(n):
     [1, 1, 1, 1]
     """
 
-    def yield_helper(j, k):
+    def yield_helper(j: int, k: int):  # j是待分割的数，k是分区大小
         if j == 0:
-            ____________________________________________
-        elif ____________________________________________:
-            for small_part in ________________________________:
-                yield ____________________________________________
-            yield ________________________________________
+            # 如果待分割的数为0，则返回空序列
+            yield []
+        elif j > 0:
+            # 待分割不为0，则把分区大小从大到小开始启动，遍历从k到1的所有可能的划分数i
+            for i in range(k, 0, -1):
+                # 对于每个划分数 i，递归地划分 j - i，并在前面加上 i
+                for small_part in yield_helper(
+                    j - i, i
+                ):  # 这么两个 for循环下来，就能表示所有的可能了
+                    yield [i] + small_part
 
     yield from yield_helper(n, n)
 
@@ -338,7 +344,7 @@ class Tree:
     True
     """
 
-    def __init__(self, label:int, branches:list[Tree]=[]):
+    def __init__(self, label: int, branches: list[Tree] = []):
         for b in branches:
             assert isinstance(b, Tree)
         self.label = label
