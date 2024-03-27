@@ -177,7 +177,7 @@ def card(n):
     return specials.get(n, str(n))
 
 
-def shuffle(cards):
+def shuffle(cards: list[int]) -> list[int]:
     """Return a shuffled list that interleaves the two halves of cards.
 
     >>> shuffle(range(6))
@@ -196,15 +196,15 @@ def shuffle(cards):
     ['AH', 'AD', 'AS', 'AC', '2H', '2D', '2S', '2C', '3H', '3D', '3S', '3C']
     """
     assert len(cards) % 2 == 0, "len(cards) must be even"
-    half = _______________
+    half = len(cards) // 2
     shuffled = []
-    for i in _____________:
-        _________________
-        _________________
+    for i in zip(cards[:half], cards[half:]):
+        shuffled.append(i[0])
+        shuffled.append(i[1])
     return shuffled
 
 
-def insert(link, value, index):
+def insert(link: Link, value: int, index: int):
     """Insert a value into a Link at the given index.
 
     >>> link = Link(1, Link(2, Link(3)))
@@ -224,7 +224,18 @@ def insert(link, value, index):
         ...
     IndexError: Out of bounds!
     """
-    "*** YOUR CODE HERE ***"
+
+    def insert_helper(link: Link, length: int):
+        if link is Link.empty:
+            raise IndexError("Out of bounds!")
+        elif index == length:
+            old_link = Link(link.first, link.rest)
+            link.first = value
+            link.rest = old_link
+        elif index > length:
+            insert_helper(link.rest, length + 1)
+
+    insert_helper(link, 0)
 
 
 def deep_len(lnk):
@@ -316,7 +327,7 @@ class Link:
     def __init__(self, first, rest=empty):
         assert rest is Link.empty or isinstance(rest, Link)
         self.first = first
-        self.rest = rest
+        self.rest: Link = rest
 
     def __repr__(self):
         if self.rest is not Link.empty:
