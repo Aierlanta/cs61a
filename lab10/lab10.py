@@ -238,7 +238,7 @@ def insert(link: Link, value: int, index: int):
     insert_helper(link, 0)
 
 
-def deep_len(lnk:Link)->int:
+def deep_len(lnk: Link) -> int:
     """ Returns the deep length of a possibly deep linked list.
 
     >>> deep_len(Link(1, Link(2, Link(3))))
@@ -260,7 +260,7 @@ def deep_len(lnk:Link)->int:
         return deep_len(lnk.first) + deep_len(lnk.rest)
 
 
-def make_to_string(front:str, mid:str, back:str, empty_repr:str):
+def make_to_string(front: str, mid: str, back: str, empty_repr: str):
     """Returns a function that turns linked lists to strings.
 
     >>> kevins_to_string = make_to_string("[", "|-]-->", "", "[]")
@@ -276,7 +276,7 @@ def make_to_string(front:str, mid:str, back:str, empty_repr:str):
     '()'
     """
 
-    def printer(lnk:Link) -> str:
+    def printer(lnk: Link) -> str:
         if lnk is not Link.empty:
             return front + str(lnk.first) + mid + str(printer(lnk.rest)) + back
         else:
@@ -285,7 +285,7 @@ def make_to_string(front:str, mid:str, back:str, empty_repr:str):
     return printer
 
 
-def reverse_other(t:Tree):
+def reverse_other(t: Tree):
     """Mutates the tree such that nodes on every other (odd-depth)
     level have the labels of their branches all reversed.
 
@@ -298,7 +298,8 @@ def reverse_other(t:Tree):
     >>> t
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
-    def helper(node:Tree, depth:int):
+
+    def helper(node: Tree, depth: int):
         if node.is_leaf():
             return
         if depth % 2 == 0:
@@ -308,9 +309,10 @@ def reverse_other(t:Tree):
                 b.label = new_label
 
         for b in node.branches:
-            helper(b, depth+1)
+            helper(b, depth + 1)
 
     helper(t, 0)
+
 
 class Link:
     """A linked list.
