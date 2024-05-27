@@ -238,7 +238,7 @@ def insert(link: Link, value: int, index: int):
     insert_helper(link, 0)
 
 
-def deep_len(lnk):
+def deep_len(lnk:Link)->int:
     """ Returns the deep length of a possibly deep linked list.
 
     >>> deep_len(Link(1, Link(2, Link(3))))
@@ -252,15 +252,15 @@ def deep_len(lnk):
     >>> deep_len(levels)
     5
     """
-    if ______________:
+    if lnk is Link.empty:
         return 0
-    elif ______________:
+    elif not isinstance(lnk, Link):
         return 1
     else:
-        return _________________________
+        return deep_len(lnk.first) + deep_len(lnk.rest)
 
 
-def make_to_string(front, mid, back, empty_repr):
+def make_to_string(front:str, mid:str, back:str, empty_repr:str):
     """Returns a function that turns linked lists to strings.
 
     >>> kevins_to_string = make_to_string("[", "|-]-->", "", "[]")
@@ -276,16 +276,16 @@ def make_to_string(front, mid, back, empty_repr):
     '()'
     """
 
-    def printer(lnk):
-        if ______________:
-            return _________________________
+    def printer(lnk:Link) -> str:
+        if lnk is not Link.empty:
+            return front + str(lnk.first) + mid + str(printer(lnk.rest)) + back
         else:
-            return _________________________
+            return empty_repr
 
     return printer
 
 
-def reverse_other(t):
+def reverse_other(t:Tree):
     """Mutates the tree such that nodes on every other (odd-depth)
     level have the labels of their branches all reversed.
 
@@ -298,8 +298,19 @@ def reverse_other(t):
     >>> t
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
-    "*** YOUR CODE HERE ***"
+    def helper(node:Tree, depth:int):
+        if node.is_leaf():
+            return
+        if depth % 2 == 0:
+            labels = [b.label for b in node.branches]
+            labels.reverse()
+            for b, new_label in zip(node.branches, labels):
+                b.label = new_label
 
+        for b in node.branches:
+            helper(b, depth+1)
+
+    helper(t, 0)
 
 class Link:
     """A linked list.
